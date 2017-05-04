@@ -1,0 +1,32 @@
+package com.customdev.boardgames;
+
+public class User {
+
+    private int mId;
+    private String mName;
+
+    public User() {
+
+    }
+
+    public User (String name) {
+        this.mId = 1;
+        this.mName = name;
+    }
+
+    public int getId() {
+        return mId;
+    }
+
+    public void setId(int id) {
+        mId = id;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
+}

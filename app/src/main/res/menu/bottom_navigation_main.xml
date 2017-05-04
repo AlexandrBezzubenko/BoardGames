@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/mi_event_list_show"
+        android:title="@string/mi_show_event_list"
+        android:icon="@drawable/ic_event_list_show_24dp"
+        android:enabled="true"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/mi_event_add"
+        android:title="@string/mi_event_add"
+        android:icon="@drawable/ic_event_add_24dp"
+        android:enabled="true"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/mi_home"
+        android:title="@string/mi_home"
+        android:icon="@drawable/ic_home_24dp"
+        android:enabled="true"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/mi_event_search"
+        android:title="@string/mi_event_search"
+        android:icon="@drawable/ic_event_search_24dp"
+        android:enabled="true"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/mi_user_profile"
+        android:title="@string/mi_user_profile"
+        android:icon="@drawable/ic_user_profile_24dp"
+        android:enabled="true"
+        app:showAsAction="ifRoom" />
+
+</menu>

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">BoardGames</string>
+
+    <string name="mi_show_event_list">My events</string>
+    <string name="mi_event_add">New event</string>
+    <string name="mi_home">Home</string>
+    <string name="mi_event_search">Event search</string>
+    <string name="mi_user_profile">My profile</string>
+
+    <string name="event_add_header">Add new game event</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

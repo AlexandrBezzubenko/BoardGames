@@ -8,6 +8,37 @@
     <string name="mi_user_profile">My profile</string>
 
     <string name="event_add_header">Add new game event</string>
+    <string name="event_add_type">Type:</string>
+    <string name="event_add_club">Club:</string>
+    <string name="event_add_game">Game:</string>
+    <string name="event_add_player_max_count">Players max count:</string>
+    <string name="event_add_player_need">Players need:</string>
+    <string name="event_add_date">Date:</string>
+    <string name="event_add_description">Description:</string>
+    <string name="event_add_date_button_text">Choose Date</string>
+    <string name="event_add_confirm_button_text">Create Event</string>
+
+    <string-array name="types">
+        <item>Game</item>
+        <item>Championship</item>
+        <item>Dungeons &amp; Dragons</item>
+    </string-array>
+
+    <string-array name="clubs">
+        <item>CBGames</item>
+        <item>Desktop</item>
+        <item>EpicWin</item>
+    </string-array>
+
+    <string-array name="games">
+        <item>Eclipse</item>
+        <item>Game of Thrones</item>
+        <item>Blood Rage</item>
+        <item>Babilon</item>
+        <item>Winter viewer</item>
+    </string-array>
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

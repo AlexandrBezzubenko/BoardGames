@@ -3,12 +3,19 @@ package com.customdev.boardgames.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
 
 import com.customdev.boardgames.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +25,7 @@ import com.customdev.boardgames.R;
  * Use the {@link EventAddFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EventAddFragment extends Fragment {
+public class EventAddFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,6 +36,15 @@ public class EventAddFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+
+    //Custom fields
+    private Spinner mTypeSpinner;
+    private Spinner mClubSpinner;
+    private Spinner mGameSpinner;
+    private Spinner mPlayerMaxSpinner;
+    private Spinner mPlayerNeedSpinner;
+    private Button mChooseTime;
 
     public EventAddFragment() {
         // Required empty public constructor
@@ -68,6 +84,55 @@ public class EventAddFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_event_add, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        View rootView = getView();
+        if (rootView != null) {
+            mTypeSpinner = (Spinner) rootView.findViewById(R.id.choose_type_spinner);
+            ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(getContext(), R.array.types, android.R.layout.simple_spinner_item);
+            typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mTypeSpinner.setAdapter(typeAdapter);
+
+            mClubSpinner = (Spinner) rootView.findViewById(R.id.choose_club_spinner);
+            ArrayAdapter<CharSequence> clubAdapter = ArrayAdapter.createFromResource(getContext(), R.array.clubs, android.R.layout.simple_spinner_item);
+            clubAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mClubSpinner.setAdapter(clubAdapter);
+
+            mGameSpinner = (Spinner) rootView.findViewById(R.id.choose_game_spinner);
+            ArrayAdapter<CharSequence> gameAdapter = ArrayAdapter.createFromResource(getContext(), R.array.games, android.R.layout.simple_spinner_item);
+            gameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mGameSpinner.setAdapter(gameAdapter);
+
+            List<Integer> maxCount = new ArrayList<>();
+            maxCount.add(9);
+            maxCount.add(8);
+            maxCount.add(7);
+            maxCount.add(6);
+            maxCount.add(5);
+            mPlayerMaxSpinner = (Spinner) rootView.findViewById(R.id.choose_player_max_count_spinner);
+            ArrayAdapter<Integer> playerMaxAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, maxCount);
+            playerMaxAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mPlayerMaxSpinner.setAdapter(playerMaxAdapter);
+
+            List<Integer> needCount = new ArrayList<>();
+            needCount.add(1);
+            needCount.add(2);
+            needCount.add(3);
+            needCount.add(4);
+            needCount.add(5);
+            mPlayerNeedSpinner = (Spinner) rootView.findViewById(R.id.choose_player_need_spinner);
+            ArrayAdapter<Integer> playerNeedAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, needCount);
+            playerNeedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mPlayerNeedSpinner.setAdapter(playerNeedAdapter);
+
+            mChooseTime = (Button) rootView.findViewById(R.id.choose_date_button);
+            mChooseTime.setOnClickListener(this);
+        }
+
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -90,6 +155,15 @@ public class EventAddFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.choose_date_button:
+
+                break;
+        }
     }
 
     /**

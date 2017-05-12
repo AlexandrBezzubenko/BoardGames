@@ -33,6 +33,7 @@
 
     <style name="AddEventView.Body">
         <item name="layout_constraintRight_toRightOf">parent</item>
+        <!--<item name="android:enabled">false</item>-->
     </style>
 
 </resources>

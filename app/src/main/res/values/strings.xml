@@ -7,9 +7,9 @@
     <string name="mi_event_search">Event search</string>
     <string name="mi_user_profile">My profile</string>
 
-    <string name="event_add_header">Add new game event</string>
-    <string name="event_add_type">Type:</string>
+    <string name="event_add_city">City:</string>
     <string name="event_add_club">Club:</string>
+    <string name="event_add_type">Type:</string>
     <string name="event_add_game">Game:</string>
     <string name="event_add_player_max_count">Players max count:</string>
     <string name="event_add_player_need">Players need:</string>
@@ -17,6 +17,21 @@
     <string name="event_add_description">Description:</string>
     <string name="event_add_date_button_text">Choose Date</string>
     <string name="event_add_confirm_button_text">Create Event</string>
+
+    <string name="desc_event_add_image">game logo</string>
+    <string name="desc_event_add_btn_edit">edit event</string>
+    <string name="desc_event_add_btn_delete">delete event</string>
+    <string name="desc_event_add_btn_confirm">confirm participation</string>
+    <string name="desc_event_add_btn_deny">deny participation</string>
+    <string name="desc_event_add_btn_invite">invite player</string>
+
+    <string-array name="cities">
+        <item>Kyiv</item>
+        <item>Kharkiv</item>
+        <item>Dnipro</item>
+        <item>Zaporizhia</item>
+        <item>Lviv</item>
+    </string-array>
 
     <string-array name="types">
         <item>Game</item>

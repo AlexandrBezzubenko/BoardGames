@@ -1,4 +1,4 @@
-package com.customdev.boardgames;
+package com.customdev.boardgames.entities;
 
 public class User {
 

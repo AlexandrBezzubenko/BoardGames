@@ -1,6 +1,9 @@
-package com.customdev.boardgames;
+package com.customdev.boardgames.entities;
 
-public class Game {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Game implements Parcelable{
 
     private int mId;
     private String mName;
@@ -8,11 +11,31 @@ public class Game {
     private int mMaxPlayers;
     private int mMinPlayers;
     private long mDuration;
-    private boolean mIsAvaliable;
 
     public Game() {
 
     }
+
+    protected Game(Parcel in) {
+        mId = in.readInt();
+        mName = in.readString();
+        mDescription = in.readString();
+        mMaxPlayers = in.readInt();
+        mMinPlayers = in.readInt();
+        mDuration = in.readLong();
+    }
+
+    public static final Creator<Game> CREATOR = new Creator<Game>() {
+        @Override
+        public Game createFromParcel(Parcel in) {
+            return new Game(in);
+        }
+
+        @Override
+        public Game[] newArray(int size) {
+            return new Game[size];
+        }
+    };
 
     public int getId() {
         return mId;
@@ -62,11 +85,18 @@ public class Game {
         mDuration = duration;
     }
 
-    public boolean isAvaliable() {
-        return mIsAvaliable;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setAvaliable(boolean avaliable) {
-        mIsAvaliable = avaliable;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeString(mName);
+        dest.writeString(mDescription);
+        dest.writeInt(mMaxPlayers);
+        dest.writeInt(mMinPlayers);
+        dest.writeLong(mDuration);
     }
 }

@@ -1,4 +1,4 @@
-package com.customdev.boardgames.entities;
+package com.customdev.boardgames.models;
 
 public class Location {
 

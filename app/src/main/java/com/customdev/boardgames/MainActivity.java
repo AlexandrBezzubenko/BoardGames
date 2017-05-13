@@ -9,10 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.customdev.boardgames.entities.Event;
+import com.customdev.boardgames.models.Event;
 import com.customdev.boardgames.fragments.EventAddFragment;
 import com.customdev.boardgames.fragments.EventListFragment;
-import com.customdev.boardgames.entities.Game;
+import com.customdev.boardgames.models.Game;
 import com.customdev.boardgames.fragments.HomeScreenFragment;
 import com.customdev.boardgames.fragments.UserProfileFragment;
 
@@ -30,7 +30,7 @@ public class MainActivity
     private Fragment mCurrentFragment, mHomeScreenFragment, mEventAddFragment, mEventListFragment, mUserProfileFragment;
     private BottomNavigationView mBottomNavigationView;
 
-    private ArrayList<Event> mEventList;
+    private ArrayList<Event> mEventList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class MainActivity
 
         ArrayList<Game> gameList = initGameList();
 
-        mHomeScreenFragment = new HomeScreenFragment();
+        mHomeScreenFragment = HomeScreenFragment.newInstance(mEventList);
         mEventAddFragment = EventAddFragment.newInstance(gameList);
         mEventListFragment = new EventListFragment();
         mUserProfileFragment = new UserProfileFragment();
@@ -72,6 +72,7 @@ public class MainActivity
     @Override
     public void onFragmentCreated(Event event) {
         mEventList.add(event);
+        setFragment(mHomeScreenFragment);
     }
 
     @Override
@@ -103,30 +104,43 @@ public class MainActivity
         Game game1 = new Game();
         game1.setId(1);
         game1.setName("Eclipse");
+        game1.setLogoTag("eclipse");
         game1.setMaxPlayers(10);
         game1.setMinPlayers(6);
         game1.setDescription("Eclipse description");
         game1.setDuration(4 * 60 * 60 * 1_000);
 
         Game game2 = new Game();
-        game2.setId(1);
+        game2.setId(2);
         game2.setName("Game of Thrones");
+        game2.setLogoTag("thrones");
         game2.setMaxPlayers(8);
         game2.setMinPlayers(5);
         game2.setDescription("Game of Thrones description");
         game2.setDuration(6 * 60 * 60 * 1_000);
 
         Game game3 = new Game();
-        game3.setId(1);
+        game3.setId(3);
         game3.setName("Blood Rage");
+        game3.setLogoTag("blood_rage");
         game3.setMaxPlayers(6);
         game3.setMinPlayers(3);
         game3.setDescription("Blood Rage description");
         game3.setDuration(4 * 60 * 60 * 1_000);
 
+        Game game4 = new Game();
+        game4.setId(4);
+        game4.setName("Agricola");
+        game4.setLogoTag("agricola");
+        game4.setMaxPlayers(4);
+        game4.setMinPlayers(2);
+        game4.setDescription("Agricola description");
+        game4.setDuration(2 * 60 * 60 * 1_000);
+
         list.add(game1);
         list.add(game2);
         list.add(game3);
+        list.add(game4);
 
         return list;
     }

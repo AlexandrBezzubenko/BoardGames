@@ -1,4 +1,4 @@
-package com.customdev.boardgames.entities;
+package com.customdev.boardgames.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,6 +7,7 @@ public class Game implements Parcelable{
 
     private int mId;
     private String mName;
+    private String mLogoTag;
     private String mDescription;
     private int mMaxPlayers;
     private int mMinPlayers;
@@ -19,6 +20,7 @@ public class Game implements Parcelable{
     protected Game(Parcel in) {
         mId = in.readInt();
         mName = in.readString();
+        mLogoTag = in.readString();
         mDescription = in.readString();
         mMaxPlayers = in.readInt();
         mMinPlayers = in.readInt();
@@ -51,6 +53,14 @@ public class Game implements Parcelable{
 
     public void setName(String name) {
         mName = name;
+    }
+
+    public String getLogoTag() {
+        return mLogoTag;
+    }
+
+    public void setLogoTag(String logoTag) {
+        mLogoTag = logoTag;
     }
 
     public String getDescription() {
@@ -94,6 +104,7 @@ public class Game implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mId);
         dest.writeString(mName);
+        dest.writeString(mLogoTag);
         dest.writeString(mDescription);
         dest.writeInt(mMaxPlayers);
         dest.writeInt(mMinPlayers);

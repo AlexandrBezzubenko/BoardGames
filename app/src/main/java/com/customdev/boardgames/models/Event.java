@@ -1,12 +1,15 @@
-package com.customdev.boardgames.entities;
+package com.customdev.boardgames.models;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.HashMap;
 
-public class Event {
+public class Event implements Parcelable {
 
     private static final int TYPE_GAME = 0;
-    private static final int TYPE_DND = 1;
-    private static final int TYPE_CHAMPIONSHIP = 2;
+    private static final int TYPE_CHAMPIONSHIP = 1;
+    private static final int TYPE_DND = 2;
 
     private int mId;
     private Location location;
@@ -22,6 +25,28 @@ public class Event {
     public Event() {
 
     }
+
+    protected Event(Parcel in) {
+        mId = in.readInt();
+        mType = in.readInt();
+        mGame = in.readParcelable(Game.class.getClassLoader());
+        mMaxPlayersCount = in.readInt();
+        mNeedPlayersCount = in.readInt();
+        mStartTime = in.readLong();
+        mDescription = in.readString();
+    }
+
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 
     public int getId() {
         return mId;
@@ -101,5 +126,21 @@ public class Event {
 
     public void setCreator(User creator) {
         mCreator = creator;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeInt(mType);
+        dest.writeParcelable(mGame, flags);
+        dest.writeInt(mMaxPlayersCount);
+        dest.writeInt(mNeedPlayersCount);
+        dest.writeLong(mStartTime);
+        dest.writeString(mDescription);
     }
 }

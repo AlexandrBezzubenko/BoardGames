@@ -30,6 +30,9 @@ public class EventListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    //Custom fields
+
+
     public EventListFragment() {
         // Required empty public constructor
     }

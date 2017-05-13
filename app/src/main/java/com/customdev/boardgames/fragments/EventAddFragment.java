@@ -15,9 +15,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.customdev.boardgames.R;
-import com.customdev.boardgames.entities.Event;
-import com.customdev.boardgames.entities.Game;
-import com.customdev.boardgames.entities.Location;
+import com.customdev.boardgames.models.Event;
+import com.customdev.boardgames.models.Game;
+import com.customdev.boardgames.models.Location;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -87,7 +87,6 @@ public class EventAddFragment extends Fragment implements View.OnClickListener, 
         EventAddFragment fragment = new EventAddFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(ARG_PARAM1, gameList);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -97,7 +96,6 @@ public class EventAddFragment extends Fragment implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mGameList = getArguments().getParcelableArrayList(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -284,8 +282,7 @@ public class EventAddFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void initPlayerNeedSpinner() {
-        int gamePosition = mGameSpinner.getSelectedItemPosition();
-        int gameMaxPlayers = mGameList.get(gamePosition).getMaxPlayers();
+        int gameMaxPlayers = (int) mPlayerMaxSpinner.getSelectedItem();
         ArrayAdapter<Integer> playerNeedAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item);
         for (int i = 1; i <= gameMaxPlayers; i++) {
             playerNeedAdapter.add(i);
@@ -302,6 +299,9 @@ public class EventAddFragment extends Fragment implements View.OnClickListener, 
         mEvent.setGame(mGameList.get(mGameSpinner.getSelectedItemPosition()));
         mEvent.setMaxPlayersCount((Integer) mPlayerMaxSpinner.getSelectedItem());
         mEvent.setNeedPlayersCount((Integer) mPlayerNeedSpinner.getSelectedItem());
+        if (mCalendar == null) {
+            mCalendar = Calendar.getInstance();
+        }
         mEvent.setStartTime(mCalendar.getTimeInMillis());
         mEvent.setDescription(mDescriptionText.getText().toString());
         mOnEventCreatedListener.onFragmentCreated(mEvent);

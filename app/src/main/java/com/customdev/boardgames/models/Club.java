@@ -1,4 +1,4 @@
-package com.customdev.boardgames.entities;
+package com.customdev.boardgames.models;
 
 /**
  * Created by dev on 5/12/17.

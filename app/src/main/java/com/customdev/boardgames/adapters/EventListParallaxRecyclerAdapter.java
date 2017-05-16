@@ -15,32 +15,30 @@ import com.customdev.boardgames.R;
 import com.customdev.boardgames.interfaces.OnEventViewButtonClickListener;
 import com.customdev.boardgames.models.Event;
 import com.customdev.boardgames.models.Location;
+import com.poliveira.parallaxrecyclerview.ParallaxRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventViewHolder> {
+public class EventListParallaxRecyclerAdapter extends ParallaxRecyclerAdapter<Event> {
 
     private Context mContext;
     private ArrayList<Event> mEventList;
     private OnEventViewButtonClickListener mClickListener;
 
-    public EventListAdapter(Context context, ArrayList<Event> events, OnEventViewButtonClickListener listener) {
+    public EventListParallaxRecyclerAdapter(Context context, ArrayList<Event> events, OnEventViewButtonClickListener listener) {
+        super(events);
         mContext = context;
         mEventList = events;
         mClickListener = listener;
     }
 
     @Override
-    public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_event, parent, false);
-        EventViewHolder holder = new EventViewHolder(view, mClickListener);
-        return holder;
-    }
+    public void onBindViewHolderImpl(RecyclerView.ViewHolder viewHolder, ParallaxRecyclerAdapter<Event> parallaxRecyclerAdapter, int position) {
 
-    @Override
-    public void onBindViewHolder(EventViewHolder holder, int position) {
+        EventViewHolder holder = (EventViewHolder) viewHolder;
+
         Event event = mEventList.get(position);
         Resources res = mContext.getResources();
 
@@ -68,16 +66,22 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         final int needPlayers = event.getNeedPlayersCount();
         holder.mEventPlayers.setText("Need payers: " + needPlayers + " Max players: " + maxPlayers);
 
-        holder.mEventCreator.setText("Creator");
+        holder.mEventCreator.setText("Creator: ");
     }
 
     @Override
-    public int getItemCount() {
+    public RecyclerView.ViewHolder onCreateViewHolderImpl(ViewGroup viewGroup, ParallaxRecyclerAdapter<Event> parallaxRecyclerAdapter, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_event, viewGroup, false);
+        return new EventViewHolder(view, mClickListener);
+    }
+
+    @Override
+    public int getItemCountImpl(ParallaxRecyclerAdapter<Event> parallaxRecyclerAdapter) {
         return mEventList.size();
     }
 
 
-    public static class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private static class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         CardView mCardView;
         ImageView mEventLogoImg;
@@ -94,7 +98,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         ImageButton mEventInviteBtn;
         OnEventViewButtonClickListener mButtonClickListener;
 
-        public EventViewHolder(View itemView, OnEventViewButtonClickListener listener) {
+        private EventViewHolder(View itemView, OnEventViewButtonClickListener listener) {
             super(itemView);
 
             mCardView = (CardView) itemView.findViewById(R.id.card_view_event);
@@ -120,7 +124,6 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
         @Override
         public void onClick(View v) {
-
             mButtonClickListener.OnButtonClick(v, getAdapterPosition());
         }
     }

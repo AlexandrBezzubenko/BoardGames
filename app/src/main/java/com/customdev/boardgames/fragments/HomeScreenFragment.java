@@ -1,10 +1,11 @@
 package com.customdev.boardgames.fragments;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,10 +14,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.customdev.boardgames.R;
-import com.customdev.boardgames.adapters.EventListAdapter;
+import com.customdev.boardgames.adapters.EventListParallaxRecyclerAdapter;
+import com.customdev.boardgames.interfaces.OnEventViewButtonClickListener;
 import com.customdev.boardgames.models.Event;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +32,7 @@ import java.util.ArrayList;
  * Use the {@link HomeScreenFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeScreenFragment extends Fragment implements EventListAdapter.OnEventButtonClickListener {
+public class HomeScreenFragment extends Fragment implements OnEventViewButtonClickListener {
 
     private static final String ARG_PARAM1 = "param1";
 
@@ -34,9 +40,9 @@ public class HomeScreenFragment extends Fragment implements EventListAdapter.OnE
 
     private OnFragmentInteractionListener mListener;
 
-    //Custom fields
-    private RecyclerView mRecyclerView;
-    private EventListAdapter mAdapter;
+    private EventListParallaxRecyclerAdapter mAdapter;
+    View mHeader;
+    MaterialCalendarView mCalendar;
 
     public HomeScreenFragment() {
         // Required empty public constructor
@@ -54,7 +60,6 @@ public class HomeScreenFragment extends Fragment implements EventListAdapter.OnE
         HomeScreenFragment fragment = new HomeScreenFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(ARG_PARAM1, eventList);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,7 +69,6 @@ public class HomeScreenFragment extends Fragment implements EventListAdapter.OnE
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mEventList = getArguments().getParcelableArrayList(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -81,11 +85,24 @@ public class HomeScreenFragment extends Fragment implements EventListAdapter.OnE
 
         View rootView = getView();
         if (rootView != null) {
-            mRecyclerView = (RecyclerView) rootView.findViewById(R.id.event_list_recycler_view);
+            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.event_list_recycler_view);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-            mAdapter = new EventListAdapter(getActivity(), mEventList, this);
-            mRecyclerView.setLayoutManager(layoutManager);
-            mRecyclerView.setAdapter(mAdapter);
+            recyclerView.setLayoutManager(layoutManager);
+            mAdapter = new EventListParallaxRecyclerAdapter(getActivity(), mEventList, this);
+
+            mHeader = LayoutInflater.from(getActivity()).inflate(R.layout.parallax_header, recyclerView, false);
+            mCalendar = (MaterialCalendarView) mHeader.findViewById(R.id.calendar);
+            mCalendar.setDateSelected(Calendar.getInstance(), true);
+            mCalendar.setOnDateChangedListener(new OnDateSelectedListener() {
+                @Override
+                public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                    String str = date.getDate().toString();
+                    Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+                }
+            });
+            mAdapter.setParallaxHeader(mHeader, recyclerView);
+            recyclerView.setAdapter(mAdapter);
+
         }
     }
 
@@ -121,8 +138,8 @@ public class HomeScreenFragment extends Fragment implements EventListAdapter.OnE
                 break;
             case R.id.button_event_delete:
                 Toast.makeText(getActivity(), "Delete", Toast.LENGTH_SHORT).show();
-                mEventList.remove(position);
-                mAdapter.notifyDataSetChanged();
+                mEventList.remove(position - 1);
+                mAdapter.notifyItemRemoved(position);
                 break;
             case R.id.button_event_confirm:
                 Toast.makeText(getActivity(), "Confirm", Toast.LENGTH_SHORT).show();

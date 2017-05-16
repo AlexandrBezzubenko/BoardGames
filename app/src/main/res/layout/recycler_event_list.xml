@@ -5,6 +5,7 @@
     android:id="@+id/recyclerview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:listitem="@layout/view_event">
+    tools:listitem="@layout/view_event"
+    tools:showIn="@layout/fragment_home_screen">
 
 </android.support.v7.widget.RecyclerView>

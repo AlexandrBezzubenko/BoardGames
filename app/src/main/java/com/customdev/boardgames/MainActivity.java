@@ -1,10 +1,12 @@
 package com.customdev.boardgames;
 
-import android.app.Fragment;
+//import android.app.Fragment;
+//import android.app.FragmentTransaction;
 import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -52,7 +54,7 @@ public class MainActivity
     }
 
     private void setFragment(Fragment fragment) {
-        FragmentTransaction fTransaction = getFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction fTransaction = getSupportFragmentManager().beginTransaction();
         if (fragment != null) {
             fTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fTransaction.replace(R.id.frame_fragment_container, fragment);
@@ -70,9 +72,10 @@ public class MainActivity
     }
 
     @Override
-    public void onFragmentCreated(Event event) {
+    public void onEventCreated(Event event) {
         mEventList.add(event);
-        setFragment(mHomeScreenFragment);
+        int menuItemId = mBottomNavigationView.getMenu().findItem(R.id.mi_home).getItemId();
+        mBottomNavigationView.setSelectedItemId(menuItemId);
     }
 
     @Override

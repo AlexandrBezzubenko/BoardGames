@@ -1,10 +1,11 @@
 package com.customdev.boardgames.fragments;
 
-import android.app.Fragment;
+//import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -222,7 +223,7 @@ public class EventAddFragment extends Fragment implements View.OnClickListener, 
                 now.get(Calendar.MINUTE),
                 true
         );
-        tpd.show(getFragmentManager(), "TimePickerDialog");
+//        tpd.show(getFragmentManager(), "TimePickerDialog");
     }
 
     private void showDateChooseDialog() {
@@ -233,7 +234,7 @@ public class EventAddFragment extends Fragment implements View.OnClickListener, 
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
         );
-        dpd.show(getFragmentManager(), "DatePickerDialog");
+//        dpd.show(getFragmentManager(), "DatePickerDialog");
     }
 
     private void initGameSpinner() {
@@ -304,7 +305,7 @@ public class EventAddFragment extends Fragment implements View.OnClickListener, 
         }
         mEvent.setStartTime(mCalendar.getTimeInMillis());
         mEvent.setDescription(mDescriptionText.getText().toString());
-        mOnEventCreatedListener.onFragmentCreated(mEvent);
+        mOnEventCreatedListener.onEventCreated(mEvent);
     }
 
     /**
@@ -323,6 +324,6 @@ public class EventAddFragment extends Fragment implements View.OnClickListener, 
     }
 
     public interface OnEventCreatedListener {
-        void onFragmentCreated(Event event);
+        void onEventCreated(Event event);
     }
 }

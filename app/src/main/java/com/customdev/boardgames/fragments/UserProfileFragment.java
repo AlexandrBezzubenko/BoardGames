@@ -4,12 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 //import android.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.customdev.boardgames.R;
+import com.customdev.boardgames.customViews.UserProfileImage;
+import com.customdev.boardgames.models.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,13 +27,20 @@ public class UserProfileFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private User mUser;
 
     private OnFragmentInteractionListener mListener;
+
+    // Custom fields
+    private UserProfileImage mProfileImage;
+    private TextView mRangeText;
+    private TextView mNicknameText;
+    private TextView mFirstnameText;
+    private TextView mLastnameText;
+    private TextView mPhoneText;
+    private TextView mEmailText;
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -39,16 +50,14 @@ public class UserProfileFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param user Parameter 1.
      * @return A new instance of fragment UserProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UserProfileFragment newInstance(String param1, String param2) {
+    public static UserProfileFragment newInstance(User user) {
         UserProfileFragment fragment = new UserProfileFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable(ARG_PARAM1, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,8 +66,7 @@ public class UserProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mUser = getArguments().getParcelable(ARG_PARAM1);
         }
     }
 
@@ -67,6 +75,37 @@ public class UserProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_user_profile, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        View rootView = getView();
+        if (rootView != null) {
+            mProfileImage = (UserProfileImage) rootView.findViewById(R.id.user_avatar_image);
+            final String str = mUser.getAvatarTag();
+            final int resId = getActivity().getResources().getIdentifier(str, "drawable", getActivity().getPackageName());
+            mProfileImage.setImageResource(resId);
+
+            mRangeText = (TextView) rootView.findViewById(R.id.user_range_text);
+            mRangeText.setText(String.valueOf(mUser.getRange()));
+
+            mNicknameText = (TextView) rootView.findViewById(R.id.user_nickname_text);
+            mNicknameText.setText(mUser.getNickname());
+
+            mFirstnameText = (TextView) rootView.findViewById(R.id.user_firstname_text);
+            mFirstnameText.setText(mUser.getFistName());
+
+            mLastnameText = (TextView) rootView.findViewById(R.id.user_lastname_text);
+            mLastnameText.setText(mUser.getLastName());
+
+            mPhoneText = (TextView) rootView.findViewById(R.id.user_phone_text);
+            mPhoneText.setText(mUser.getPhone());
+
+            mEmailText = (TextView) rootView.findViewById(R.id.user_email_text);
+            mEmailText.setText(mUser.getEmail());
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

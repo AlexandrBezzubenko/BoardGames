@@ -18,12 +18,25 @@
     <string name="event_add_date_button_text">Choose Date</string>
     <string name="event_add_confirm_button_text">Create Event</string>
 
+    <string name="user_profile_nickname">Nickname:</string>
+    <string name="user_profile_firstname">Firstname:</string>
+    <string name="user_profile_lastname">Lastname:</string>
+    <string name="user_profile_city">City:</string>
+    <string name="user_profile_phone">Phone:</string>
+    <string name="user_profile_email">Email:</string>
+    <string name="user_profile_range">Range:</string>
+    <string name="user_profile_role">Role:</string>
+
     <string name="desc_event_add_image">game logo</string>
     <string name="desc_event_add_btn_edit">edit event</string>
     <string name="desc_event_add_btn_delete">delete event</string>
     <string name="desc_event_add_btn_confirm">confirm participation</string>
     <string name="desc_event_add_btn_deny">deny participation</string>
     <string name="desc_event_add_btn_invite">invite player</string>
+
+    <string name="desc_user_profile_image_header">user profile header image</string>
+    <string name="desc_user_profile_image_label_range">user profile range label</string>
+    <string name="desc_user_profile_btn_edit">user profile edit button</string>
 
     <string-array name="cities">
         <item>Kyiv</item>

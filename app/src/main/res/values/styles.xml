@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AddEventView">
+    <style name="AttributesListView">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">8dp</item>
@@ -17,7 +17,7 @@
         <item name="layout_constraintLeft_toLeftOf">parent</item>
     </style>
 
-    <style name="AddEventView.Header">
+    <style name="AttributesListView.Header">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:textSize">18sp</item>
@@ -25,15 +25,14 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="AddEventView.Divider">
+    <style name="AttributesListView.Divider">
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="layout_constraintRight_toRightOf">parent</item>
     </style>
 
-    <style name="AddEventView.Body">
+    <style name="AttributesListView.Body">
         <item name="layout_constraintRight_toRightOf">parent</item>
-        <!--<item name="android:enabled">false</item>-->
     </style>
 
 </resources>

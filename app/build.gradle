@@ -36,4 +36,6 @@ dependencies {
     compile "com.prolificinteractive:material-calendarview:1.4.3"
     compile 'com.github.kanytu:android-parallax-recyclerview:v1.7'
     testCompile "junit:junit:4.12"
+
+    compile "com.mikepenz:itemanimators:0.5.0@aar"
 }

@@ -102,6 +102,7 @@ public class HomeScreenFragment extends Fragment implements OnEventViewButtonCli
             });
             mAdapter.setParallaxHeader(mHeader, recyclerView);
             recyclerView.setAdapter(mAdapter);
+            recyclerView.setItemAnimator(new com.mikepenz.itemanimators.SlideUpAlphaAnimator());
 
         }
     }

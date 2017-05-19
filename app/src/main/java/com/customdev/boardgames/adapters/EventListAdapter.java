@@ -15,11 +15,12 @@ import com.customdev.boardgames.R;
 import com.customdev.boardgames.interfaces.OnEventViewButtonClickListener;
 import com.customdev.boardgames.models.Event;
 import com.customdev.boardgames.models.Location;
+import com.customdev.boardgames.models.User;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventViewHolder> {
 
     private Context mContext;
@@ -35,8 +36,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_event, parent, false);
-        EventViewHolder holder = new EventViewHolder(view, mClickListener);
-        return holder;
+        return new EventViewHolder(view, mClickListener);
     }
 
     @Override
@@ -64,11 +64,17 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         final String club = res.getStringArray(R.array.clubs)[location.getClub()];
         holder.mEventLocation.setText(city + " " + club);
 
-        final int maxPlayers = event.getMaxPlayersCount();
         final int needPlayers = event.getNeedPlayersCount();
-        holder.mEventPlayers.setText("Need payers: " + needPlayers + " Max players: " + maxPlayers);
+        final int maxPlayers = event.getMaxPlayersCount();
+        final String playersCountText = mContext.getString(R.string.event_list_item_players_count, needPlayers, maxPlayers);
+        holder.mEventPlayers.setText(playersCountText);
 
-        holder.mEventCreator.setText("Creator");
+        final User creator = event.getCreator();
+        String creatorNickname = "";
+        if (creator != null)
+            creatorNickname = creator.getNickname();
+        final String creatorText = mContext.getString(R.string.event_list_item_creator, creatorNickname);
+        holder.mEventCreator.setText(creatorText);
     }
 
     @Override
@@ -77,7 +83,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     }
 
 
-    public static class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         CardView mCardView;
         ImageView mEventLogoImg;
@@ -94,7 +100,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         ImageButton mEventInviteBtn;
         OnEventViewButtonClickListener mButtonClickListener;
 
-        public EventViewHolder(View itemView, OnEventViewButtonClickListener listener) {
+        private EventViewHolder(View itemView, OnEventViewButtonClickListener listener) {
             super(itemView);
 
             mCardView = (CardView) itemView.findViewById(R.id.card_view_event);

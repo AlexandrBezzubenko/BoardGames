@@ -18,6 +18,9 @@
     <string name="event_add_date_button_text">Choose Date</string>
     <string name="event_add_confirm_button_text">Create Event</string>
 
+    <string name="event_list_item_players_count">Max players: %1$d  Needs players: %2$d</string>
+    <string name="event_list_item_creator">Creator: %1$s</string>
+
     <string name="user_profile_nickname">Nickname:</string>
     <string name="user_profile_firstname">Firstname:</string>
     <string name="user_profile_lastname">Lastname:</string>

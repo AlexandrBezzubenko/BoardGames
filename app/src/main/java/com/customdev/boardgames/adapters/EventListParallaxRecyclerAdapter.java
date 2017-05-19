@@ -15,6 +15,7 @@ import com.customdev.boardgames.R;
 import com.customdev.boardgames.interfaces.OnEventViewButtonClickListener;
 import com.customdev.boardgames.models.Event;
 import com.customdev.boardgames.models.Location;
+import com.customdev.boardgames.models.User;
 import com.poliveira.parallaxrecyclerview.ParallaxRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -62,11 +63,17 @@ public class EventListParallaxRecyclerAdapter extends ParallaxRecyclerAdapter<Ev
         final String club = res.getStringArray(R.array.clubs)[location.getClub()];
         holder.mEventLocation.setText(city + " " + club);
 
-        final int maxPlayers = event.getMaxPlayersCount();
         final int needPlayers = event.getNeedPlayersCount();
-        holder.mEventPlayers.setText("Need payers: " + needPlayers + " Max players: " + maxPlayers);
+        final int maxPlayers = event.getMaxPlayersCount();
+        final String playersCountText = mContext.getString(R.string.event_list_item_players_count, needPlayers, maxPlayers);
+        holder.mEventPlayers.setText(playersCountText);
 
-        holder.mEventCreator.setText("Creator: ");
+        final User creator = event.getCreator();
+        String creatorNickname = "";
+        if (creator != null)
+            creatorNickname = creator.getNickname();
+        final String creatorText = mContext.getString(R.string.event_list_item_creator, creatorNickname);
+        holder.mEventCreator.setText(creatorText);
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.customdev.boardgames;
 
-//import android.app.Fragment;
-//import android.app.FragmentTransaction;
 import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -11,14 +9,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import java.util.Random;
+
 import com.customdev.boardgames.models.Event;
 import com.customdev.boardgames.fragments.EventAddFragment;
 import com.customdev.boardgames.fragments.EventListFragment;
 import com.customdev.boardgames.models.Game;
 import com.customdev.boardgames.fragments.HomeScreenFragment;
 import com.customdev.boardgames.fragments.UserProfileFragment;
+import com.customdev.boardgames.models.Location;
+import com.customdev.boardgames.models.User;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity
         extends AppCompatActivity
@@ -40,11 +43,13 @@ public class MainActivity
         setContentView(R.layout.activity_main);
 
         ArrayList<Game> gameList = initGameList();
+        User user = initUser();
+        mEventList = initEventList(gameList, user);
 
         mHomeScreenFragment = HomeScreenFragment.newInstance(mEventList);
         mEventAddFragment = EventAddFragment.newInstance(gameList);
         mEventListFragment = new EventListFragment();
-        mUserProfileFragment = new UserProfileFragment();
+        mUserProfileFragment = UserProfileFragment.newInstance(user);
 
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         mBottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -146,5 +151,138 @@ public class MainActivity
         list.add(game4);
 
         return list;
+    }
+
+    private User initUser() {
+        User user = new User();
+        user.setAvatarTag("avatar");
+        user.setRange(666);
+        user.setNickname("Trooper");
+        user.setFistName("John");
+        user.setLastName("Snow");
+        user.setPhone("+38 (096) 569 23 57");
+        user.setEmail("john@snow.com");
+        return user;
+    }
+
+    private ArrayList<Event> initEventList(ArrayList<Game> games, User user) {
+
+        ArrayList<Event> list = new ArrayList<>();
+        Location location = new Location();
+        Game game = games.get(randInt(0, games.size() - 1));
+
+        location.setId(1);
+        location.setCity(0);
+        location.setClub(0);
+
+        Event event1 = new Event();
+        event1.setId(1);
+        event1.setLocation(location);
+        event1.setType(0);
+        event1.setGame(game);
+        event1.setMaxPlayersCount(game.getMinPlayers());
+        event1.setNeedPlayersCount(game.getMinPlayers());
+        event1.setStartTime(System.currentTimeMillis());
+        event1.setDescription("Description");
+        event1.setCreator(user);
+
+        game = games.get(randInt(0, games.size() - 1));
+
+        location.setId(2);
+        location.setCity(1);
+        location.setClub(1);
+
+        Event event2 = new Event();
+        event2.setId(2);
+        event2.setLocation(location);
+        event2.setType(0);
+        event2.setGame(game);
+        event2.setMaxPlayersCount(game.getMinPlayers());
+        event2.setNeedPlayersCount(game.getMinPlayers());
+        event2.setStartTime(System.currentTimeMillis());
+        event2.setDescription("Description");
+        event2.setCreator(user);
+
+        game = games.get(randInt(0, games.size() - 1));
+
+        location.setId(3);
+        location.setCity(2);
+        location.setClub(2);
+
+        Event event3 = new Event();
+        event3.setId(3);
+        event3.setLocation(location);
+        event3.setType(0);
+        event3.setGame(game);
+        event3.setMaxPlayersCount(game.getMinPlayers());
+        event3.setNeedPlayersCount(game.getMinPlayers());
+        event3.setStartTime(System.currentTimeMillis());
+        event3.setDescription("Description");
+        event3.setCreator(user);
+
+        game = games.get(randInt(0, games.size() - 1));
+
+        location.setId(4);
+        location.setCity(3);
+        location.setClub(0);
+
+        Event event4 = new Event();
+        event4.setId(4);
+        event4.setLocation(location);
+        event4.setType(0);
+        event4.setGame(game);
+        event4.setMaxPlayersCount(game.getMinPlayers());
+        event4.setNeedPlayersCount(game.getMinPlayers());
+        event4.setStartTime(System.currentTimeMillis());
+        event4.setDescription("Description");
+        event4.setCreator(user);
+
+        game = games.get(randInt(0, games.size() - 1));
+
+        location.setId(5);
+        location.setCity(4);
+        location.setClub(0);
+
+        Event event5 = new Event();
+        event5.setId(5);
+        event5.setLocation(location);
+        event5.setType(0);
+        event5.setGame(game);
+        event5.setMaxPlayersCount(game.getMinPlayers());
+        event5.setNeedPlayersCount(game.getMinPlayers());
+        event5.setStartTime(System.currentTimeMillis());
+        event5.setDescription("Description");
+        event5.setCreator(user);
+
+        game = games.get(randInt(0, games.size() - 1));
+
+        location.setId(6);
+        location.setCity(0);
+        location.setClub(0);
+
+        Event event6 = new Event();
+        event6.setId(6);
+        event6.setLocation(location);
+        event6.setType(0);
+        event6.setGame(game);
+        event6.setMaxPlayersCount(game.getMinPlayers());
+        event6.setNeedPlayersCount(game.getMinPlayers());
+        event6.setStartTime(System.currentTimeMillis());
+        event6.setDescription("Description");
+        event6.setCreator(user);
+
+        list.add(event1);
+        list.add(event2);
+        list.add(event3);
+        list.add(event4);
+        list.add(event5);
+        list.add(event6);
+
+        return list;
+    }
+
+    private int randInt(int min, int max) {
+        Random rand = new Random();
+        return rand.nextInt((max - min) + 1) + min;
     }
 }

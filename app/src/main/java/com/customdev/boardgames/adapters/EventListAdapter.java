@@ -126,7 +126,6 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
         @Override
         public void onClick(View v) {
-
             mButtonClickListener.OnButtonClick(v, getAdapterPosition());
         }
     }

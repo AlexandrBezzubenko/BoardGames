@@ -12,19 +12,17 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="128dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:fitsSystemWindows="true">
+        android:layout_height="@dimen/toolbar_image_height"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways|snap"
+            app:contentScrim="?attr/colorPrimary">
 
         <!--    Header image    -->
             <ImageView
@@ -182,16 +180,27 @@
         android:id="@+id/user_avatar_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="24dp"
-        android:elevation="8dp"
-        app:layout_anchor="@id/appbar"
-        app:layout_anchorGravity="bottom|left|start"
-        app:layout_behavior=""
+        app:layout_behavior="com.customdev.boardgames.behaviors.UserProfileAvatarBehavior"
         tools:src="@drawable/avatar"
-        tools:ignore="UnusedAttribute"/>
-    <!--.UserProfileAvatarBehavior-->
+        tools:ignore="UnusedAttribute"
+
+        app:finalHeight="@dimen/image_final_width"
+        app:finalYPosition="0dp"
+        app:startHeight="0dp"
+        app:startToolbarPosition="0dp"
+        app:startXPosition="0dp"
+
+
+    />
+
+
+    <!--app:layout_anchor="@id/appbar"-->
+    <!--android:elevation="8dp"-->
+    <!--app:layout_anchorGravity="bottom|left|start"-->
+    <!--android:layout_marginLeft="12dp"-->
+
+    <!--android:layout_marginBottom="8dp"-->
+    <!--android:layout_marginStart="24dp"-->
 
 <!--    Floating action button    -->
     <android.support.design.widget.FloatingActionButton

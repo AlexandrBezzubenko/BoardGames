@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.customdev.boardgames.R;
+import com.customdev.boardgames.adapters.EventListAdapter;
 import com.customdev.boardgames.adapters.EventListParallaxRecyclerAdapter;
 import com.customdev.boardgames.interfaces.OnEventViewButtonClickListener;
 import com.customdev.boardgames.models.Event;
@@ -40,7 +41,8 @@ public class HomeScreenFragment extends Fragment implements OnEventViewButtonCli
 
     private OnFragmentInteractionListener mListener;
 
-    private EventListParallaxRecyclerAdapter mAdapter;
+//    private EventListParallaxRecyclerAdapter mAdapter;
+    private EventListAdapter mAdapter;
     View mHeader;
     MaterialCalendarView mCalendar;
 
@@ -88,10 +90,12 @@ public class HomeScreenFragment extends Fragment implements OnEventViewButtonCli
             RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.event_list_recycler_view);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
-            mAdapter = new EventListParallaxRecyclerAdapter(getActivity(), mEventList, this);
+//            mAdapter = new EventListParallaxRecyclerAdapter(getActivity(), mEventList, this);
+            mAdapter = new EventListAdapter(getActivity(), mEventList, this);
 
-            mHeader = LayoutInflater.from(getActivity()).inflate(R.layout.parallax_header, recyclerView, false);
-            mCalendar = (MaterialCalendarView) mHeader.findViewById(R.id.calendar);
+//            mHeader = LayoutInflater.from(getActivity()).inflate(R.layout.parallax_header, recyclerView, false);
+//            mCalendar = (MaterialCalendarView) mHeader.findViewById(R.id.calendar);
+            mCalendar = (MaterialCalendarView) rootView.findViewById(R.id.calendar_header);
             mCalendar.setDateSelected(Calendar.getInstance(), true);
             mCalendar.setOnDateChangedListener(new OnDateSelectedListener() {
                 @Override
@@ -100,8 +104,9 @@ public class HomeScreenFragment extends Fragment implements OnEventViewButtonCli
                     Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
                 }
             });
-            mAdapter.setParallaxHeader(mHeader, recyclerView);
+//            mAdapter.setParallaxHeader(mHeader, recyclerView);
             recyclerView.setAdapter(mAdapter);
+            recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setItemAnimator(new com.mikepenz.itemanimators.SlideUpAlphaAnimator());
 
         }

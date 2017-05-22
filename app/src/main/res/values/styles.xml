@@ -35,4 +35,8 @@
         <item name="layout_constraintRight_toRightOf">parent</item>
     </style>
 
+    <style name="CustomTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Header">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>

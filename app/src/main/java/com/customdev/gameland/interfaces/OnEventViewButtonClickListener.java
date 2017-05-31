@@ -1,4 +1,4 @@
-package com.customdev.boardgames.interfaces;
+package com.customdev.gameland.interfaces;
 
 import android.view.View;
 

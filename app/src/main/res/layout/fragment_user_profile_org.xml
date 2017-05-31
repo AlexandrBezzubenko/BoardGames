@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.customdev.boardgames.fragments.UserProfileFragment">
+    tools:context="com.customdev.gameland.fragments.UserProfileFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             app:layout_constraintGuide_percent="0.33"/>
 
     <!--    Avatar    -->
-        <com.customdev.boardgames.customViews.UserProfileImage
+        <com.customdev.gameland.customViews.UserProfileImage
             android:id="@+id/user_avatar_image"
             android:layout_width="100dp"
             android:layout_height="100dp"

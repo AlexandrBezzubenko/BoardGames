@@ -1,4 +1,4 @@
-package com.customdev.boardgames.fragments;
+package com.customdev.gameland.fragments;
 
 //import android.app.Fragment;
 import android.content.Context;
@@ -15,10 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.customdev.boardgames.R;
-import com.customdev.boardgames.models.Event;
-import com.customdev.boardgames.models.Game;
-import com.customdev.boardgames.models.Location;
+import com.customdev.gameland.R;
+import com.customdev.gameland.models.Event;
+import com.customdev.gameland.models.Game;
+import com.customdev.gameland.models.Location;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 

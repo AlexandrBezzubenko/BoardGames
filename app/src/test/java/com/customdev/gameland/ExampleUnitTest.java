@@ -1,4 +1,4 @@
-package com.customdev.boardgames;
+package com.customdev.gameland;
 
 import org.junit.Test;
 

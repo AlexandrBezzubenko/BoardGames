@@ -1,4 +1,4 @@
-package com.customdev.boardgames.adapters;
+package com.customdev.gameland.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -11,11 +11,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.customdev.boardgames.R;
-import com.customdev.boardgames.interfaces.OnEventViewButtonClickListener;
-import com.customdev.boardgames.models.Event;
-import com.customdev.boardgames.models.Location;
-import com.customdev.boardgames.models.User;
+import com.customdev.gameland.R;
+import com.customdev.gameland.interfaces.OnEventViewButtonClickListener;
+import com.customdev.gameland.models.Event;
+import com.customdev.gameland.models.Location;
+import com.customdev.gameland.models.User;
 
 import java.util.ArrayList;
 import java.util.Calendar;

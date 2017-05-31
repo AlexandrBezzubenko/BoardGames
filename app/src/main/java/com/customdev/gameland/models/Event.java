@@ -1,4 +1,4 @@
-package com.customdev.boardgames.models;
+package com.customdev.gameland.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

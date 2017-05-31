@@ -1,4 +1,4 @@
-package com.customdev.boardgames.fragments;
+package com.customdev.gameland.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -13,11 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.customdev.boardgames.R;
-import com.customdev.boardgames.adapters.EventListAdapter;
-import com.customdev.boardgames.adapters.EventListParallaxRecyclerAdapter;
-import com.customdev.boardgames.interfaces.OnEventViewButtonClickListener;
-import com.customdev.boardgames.models.Event;
+import com.customdev.gameland.R;
+import com.customdev.gameland.adapters.EventListAdapter;
+import com.customdev.gameland.interfaces.OnEventViewButtonClickListener;
+import com.customdev.gameland.models.Event;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;

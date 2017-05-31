@@ -1,4 +1,4 @@
-package com.customdev.boardgames.models;
+package com.customdev.gameland.models;
 
 public class Location {
 

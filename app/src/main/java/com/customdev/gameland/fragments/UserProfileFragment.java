@@ -1,19 +1,23 @@
-package com.customdev.boardgames.fragments;
+package com.customdev.gameland.fragments;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 //import android.app.Fragment;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.customdev.boardgames.R;
-import com.customdev.boardgames.customViews.UserProfileImage;
-import com.customdev.boardgames.models.User;
+import com.customdev.gameland.R;
+import com.customdev.gameland.models.User;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +27,7 @@ import com.customdev.boardgames.models.User;
  * Use the {@link UserProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserProfileFragment extends Fragment {
+public class UserProfileFragment extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -34,13 +38,19 @@ public class UserProfileFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     // Custom fields
-    private UserProfileImage mProfileImage;
+//    private UserProfileImage mProfileImage;
+    private CircleImageView mProfileImage;
     private TextView mRangeText;
     private TextView mNicknameText;
     private TextView mFirstnameText;
     private TextView mLastnameText;
     private TextView mPhoneText;
     private TextView mEmailText;
+
+    private FloatingActionButton mEditFloatingActionButton;
+    private Button mConfirmButton;
+
+    private boolean isEditable = false;
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -83,7 +93,8 @@ public class UserProfileFragment extends Fragment {
 
         View rootView = getView();
         if (rootView != null) {
-            mProfileImage = (UserProfileImage) rootView.findViewById(R.id.user_avatar_image);
+//            mProfileImage = (UserProfileImage) rootView.findViewById(R.id.user_avatar_image);
+            mProfileImage = (CircleImageView) rootView.findViewById(R.id.user_avatar_image);
             final String str = mUser.getAvatarTag();
             final int resId = getActivity().getResources().getIdentifier(str, "drawable", getActivity().getPackageName());
             mProfileImage.setImageResource(resId);
@@ -103,8 +114,14 @@ public class UserProfileFragment extends Fragment {
             mPhoneText = (TextView) rootView.findViewById(R.id.user_phone_text);
             mPhoneText.setText(mUser.getPhone());
 
-            mEmailText = (TextView) rootView.findViewById(R.id.user_email_text);
+            mEmailText = (EditText) rootView.findViewById(R.id.user_email_text);
             mEmailText.setText(mUser.getEmail());
+
+            mEditFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.edit_fab);
+            mEditFloatingActionButton.setOnClickListener(this);
+
+            mConfirmButton = (Button) rootView.findViewById(R.id.confirm_btn);
+            mConfirmButton.setOnClickListener(this);
         }
     }
 
@@ -130,6 +147,38 @@ public class UserProfileFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.edit_fab:
+                allowEdit();
+                break;
+            case R.id.confirm_btn:
+                confirmEdit();
+                break;
+        }
+    }
+
+    private void allowEdit() {
+        isEditable = true;
+        mNicknameText.setEnabled(isEditable);
+        mFirstnameText.setEnabled(isEditable);
+        mLastnameText.setEnabled(isEditable);
+        mPhoneText.setEnabled(isEditable);
+        mEmailText.setEnabled(isEditable);
+        mConfirmButton.setVisibility(View.VISIBLE);
+    }
+
+    private void confirmEdit() {
+        isEditable = false;
+        mNicknameText.setEnabled(isEditable);
+        mFirstnameText.setEnabled(isEditable);
+        mLastnameText.setEnabled(isEditable);
+        mPhoneText.setEnabled(isEditable);
+        mEmailText.setEnabled(isEditable);
+        mConfirmButton.setVisibility(View.GONE);
     }
 
     /**

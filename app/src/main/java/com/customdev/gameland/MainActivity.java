@@ -1,6 +1,7 @@
-package com.customdev.boardgames;
+package com.customdev.gameland;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -11,17 +12,16 @@ import android.view.MenuItem;
 
 import java.util.Random;
 
-import com.customdev.boardgames.models.Event;
-import com.customdev.boardgames.fragments.EventAddFragment;
-import com.customdev.boardgames.fragments.EventListFragment;
-import com.customdev.boardgames.models.Game;
-import com.customdev.boardgames.fragments.HomeScreenFragment;
-import com.customdev.boardgames.fragments.UserProfileFragment;
-import com.customdev.boardgames.models.Location;
-import com.customdev.boardgames.models.User;
+import com.customdev.gameland.models.Event;
+import com.customdev.gameland.fragments.EventAddFragment;
+import com.customdev.gameland.fragments.EventListFragment;
+import com.customdev.gameland.models.Game;
+import com.customdev.gameland.fragments.HomeScreenFragment;
+import com.customdev.gameland.fragments.UserProfileFragment;
+import com.customdev.gameland.models.Location;
+import com.customdev.gameland.models.User;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class MainActivity
         extends AppCompatActivity
@@ -87,7 +87,9 @@ public class MainActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mi_event_list_show:
-                setFragment(mEventListFragment);
+//                setFragment(mEventListFragment);
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
                 break;
             case R.id.mi_event_add:
                 setFragment(mEventAddFragment);

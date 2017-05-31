@@ -1,4 +1,4 @@
-package com.customdev.boardgames.behaviors;
+package com.customdev.gameland.behaviors;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,11 +8,12 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
-import com.customdev.boardgames.R;
-import com.customdev.boardgames.customViews.UserProfileImage;
+import com.customdev.gameland.R;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 @SuppressWarnings("unused")
-public class UserProfileAvatarBehavior extends CoordinatorLayout.Behavior<UserProfileImage> {
+public class UserProfileAvatarBehavior extends CoordinatorLayout.Behavior<CircleImageView> {
 
     private final static float MIN_AVATAR_PERCENTAGE_SIZE   = 0.3f;
     private final static int EXTRA_FINAL_AVATAR_PADDING     = 80;
@@ -41,6 +42,9 @@ public class UserProfileAvatarBehavior extends CoordinatorLayout.Behavior<UserPr
     private float mCustomToolbarHeight;
     int toolbarImageHeight;
     int imageFinalHeight;
+    int imageFinalPosition;
+    int imageTravelDimension;
+    int imageScaleDiff;
 
     public UserProfileAvatarBehavior() {
 
@@ -51,6 +55,7 @@ public class UserProfileAvatarBehavior extends CoordinatorLayout.Behavior<UserPr
 
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.UserProfileAvatarBehavior);
+
             mCustomFinalYPosition = a.getDimension(R.styleable.UserProfileAvatarBehavior_finalYPosition, 0);
             mCustomStartXPosition = a.getDimension(R.styleable.UserProfileAvatarBehavior_startXPosition, 0);
             mCustomStartToolbarPosition = a.getDimension(R.styleable.UserProfileAvatarBehavior_startToolbarPosition, 0);
@@ -79,6 +84,9 @@ public class UserProfileAvatarBehavior extends CoordinatorLayout.Behavior<UserPr
             mCustomToolbarHeight = TypedValue.complexToDimensionPixelSize(tv.data, mContext.getResources().getDisplayMetrics());
         }
 
+
+        imageFinalPosition = (int) (mCustomToolbarHeight - imageFinalHeight) / 2;
+
         travelDimension = toolbarImageHeight - mCustomToolbarHeight;
 
     }
@@ -88,13 +96,22 @@ public class UserProfileAvatarBehavior extends CoordinatorLayout.Behavior<UserPr
     }
 
     @Override
-    public boolean layoutDependsOn(CoordinatorLayout parent, UserProfileImage child, View dependency) {
+    public boolean layoutDependsOn(CoordinatorLayout parent, CircleImageView child, View dependency) {
         return dependency instanceof NestedScrollView;
     }
 
     @Override
-    public boolean onDependentViewChanged(CoordinatorLayout parent, UserProfileImage child, View dependency) {
+    public boolean onDependentViewChanged(CoordinatorLayout parent, CircleImageView child, View dependency) {
 //        maybeInitProperties(child, dependency);
+
+        if (mStartYPosition == 0) {
+            mStartYPosition = toolbarImageHeight - child.getHeight() / 2;
+            imageTravelDimension = mStartYPosition - imageFinalPosition;
+        }
+
+        if (imageScaleDiff == 0) {
+            imageScaleDiff = child.getHeight() - imageFinalHeight;
+        }
 
         float percentageTravel = 0;
         int positionY = 0;
@@ -103,14 +120,17 @@ public class UserProfileAvatarBehavior extends CoordinatorLayout.Behavior<UserPr
             percentageTravel = d / travelDimension;
 
         }
-        int position = (int) (toolbarImageHeight - child.getHeight() / 2 - travelDimension * percentageTravel);
+        int position = (int) (mStartYPosition - imageTravelDimension * percentageTravel);
         child.setY(position);
+        child.setX(mFinalLeftAvatarPadding);
 
-
+//        child.getMe
 
         CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
-        lp.width = (int) (mStartHeight * (1 - percentageTravel));
-        lp.height = (int) (mStartHeight * (1 - percentageTravel));
+        lp.width = (int) (imageFinalHeight + imageScaleDiff * (1 - percentageTravel));
+        lp.height = (int) (imageFinalHeight + imageScaleDiff * (1 - percentageTravel));
+//        lp.width = (int) (mStartHeight * (1 - percentageTravel));
+//        lp.height = (int) (mStartHeight * (1 - percentageTravel));
         child.setLayoutParams(lp);
 
 
@@ -150,39 +170,39 @@ public class UserProfileAvatarBehavior extends CoordinatorLayout.Behavior<UserPr
         return true;
     }
 
-    private void maybeInitProperties(UserProfileImage child, View dependency) {
-        if (mStartYPosition == 0)
-            mStartYPosition = (int) (dependency.getY());
-
-        if (mFinalYPosition == 0)
-            mFinalYPosition = (dependency.getHeight() /2);
-
-        if (mStartHeight == 0)
-            mStartHeight = child.getHeight();
-
-        if (mStartXPosition == 0)
-            mStartXPosition = (int) (child.getX() + (child.getWidth() / 2));
-
-        if (mFinalXPosition == 0)
-            mFinalXPosition = mContext.getResources().getDimensionPixelOffset(R.dimen.abc_action_bar_content_inset_material) + ((int) mCustomFinalHeight / 2);
-
-        if (mStartToolbarPosition == 0)
-            mStartToolbarPosition = dependency.getY();
-
-        if (mChangeBehaviorPoint == 0) {
-            mChangeBehaviorPoint = (child.getHeight() - mCustomFinalHeight) / (2f * (mStartYPosition - mFinalYPosition));
-        }
-    }
-
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = mContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
-
-        if (resourceId > 0) {
-            result = mContext.getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
+//    private void maybeInitProperties(UserProfileImage child, View dependency) {
+//        if (mStartYPosition == 0)
+//            mStartYPosition = (int) (dependency.getY());
+//
+//        if (mFinalYPosition == 0)
+//            mFinalYPosition = (dependency.getHeight() /2);
+//
+//        if (mStartHeight == 0)
+//            mStartHeight = child.getHeight();
+//
+//        if (mStartXPosition == 0)
+//            mStartXPosition = (int) (child.getX() + (child.getWidth() / 2));
+//
+//        if (mFinalXPosition == 0)
+//            mFinalXPosition = mContext.getResources().getDimensionPixelOffset(R.dimen.abc_action_bar_content_inset_material) + ((int) mCustomFinalHeight / 2);
+//
+//        if (mStartToolbarPosition == 0)
+//            mStartToolbarPosition = dependency.getY();
+//
+//        if (mChangeBehaviorPoint == 0) {
+//            mChangeBehaviorPoint = (child.getHeight() - mCustomFinalHeight) / (2f * (mStartYPosition - mFinalYPosition));
+//        }
+//    }
+//
+//    public int getStatusBarHeight() {
+//        int result = 0;
+//        int resourceId = mContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
+//
+//        if (resourceId > 0) {
+//            result = mContext.getResources().getDimensionPixelSize(resourceId);
+//        }
+//        return result;
+//    }
 
     private float getHeaderImageYTranslation(View dependency) {
         return toolbarImageHeight - dependency.getY();

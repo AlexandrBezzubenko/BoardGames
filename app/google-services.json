@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "615777349076",
+    "firebase_url": "https://gland-ef443.firebaseio.com",
+    "project_id": "gland-ef443",
+    "storage_bucket": "gland-ef443.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615777349076:android:b54c325390a62aab",
+        "android_client_info": {
+          "package_name": "com.customdev.gameland"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "615777349076-imutnj22sjfj27aj1ajl4ia4vtfflv6k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.customdev.gameland",
+            "certificate_hash": "65a991b44a3bff74cbe3ffdfe3c4415f32073ea5"
+          }
+        },
+        {
+          "client_id": "615777349076-c9admee654cq45pmoft217qm2tiujpnd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGknIhKQgKMgazsisuyCnyeNwA3xh0Bio"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "615777349076-06n82dc96gl82n4e3bh1egjs6tcrrl4h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "mshevchuk.GLand.IOS"
+              }
+            },
+            {
+              "client_id": "615777349076-c9admee654cq45pmoft217qm2tiujpnd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

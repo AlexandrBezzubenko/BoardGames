@@ -1,10 +1,13 @@
-package com.customdev.boardgames.customViews;
+package com.customdev.gameland.customViews;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+
+import com.customdev.gameland.R;
 
 public class UserProfileImage extends android.support.v7.widget.AppCompatImageView {
 
@@ -17,6 +20,9 @@ public class UserProfileImage extends android.support.v7.widget.AppCompatImageVi
 
     public UserProfileImage(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UserProfileImage);
+        int width = typedArray.getDimensionPixelSize(R.styleable.UserProfileImage_android_width, 0);
     }
 
     public UserProfileImage(Context context, AttributeSet attrs, int defStyle) {

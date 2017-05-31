@@ -1,4 +1,4 @@
-package com.customdev.boardgames;
+package com.customdev.gameland;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.customdev.boardgames", appContext.getPackageName());
+        assertEquals("com.customdev.gameland", appContext.getPackageName());
     }
 }

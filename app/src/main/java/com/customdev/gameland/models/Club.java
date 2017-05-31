@@ -1,4 +1,4 @@
-package com.customdev.boardgames.models;
+package com.customdev.gameland.models;
 
 /**
  * Created by dev on 5/12/17.

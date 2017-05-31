@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.customdev.boardgames.fragments.HomeScreenFragment">
+    tools:context="com.customdev.gameland.fragments.HomeScreenFragment">
 
 <!--    Action bar    -->
     <android.support.design.widget.AppBarLayout
@@ -14,14 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="256dp"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways|snap"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways|enterAlwaysCollapsed|snap"
             app:contentScrim="?attr/colorPrimary">
 
         <!--    Calendar header    -->
@@ -61,9 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/view_event"
-            tools:showIn="@layout/fragment_home_screen">
-
-        </android.support.v7.widget.RecyclerView>
+            tools:showIn="@layout/fragment_home_screen" />
 
         <!--<include-->
             <!--android:id="@+id/event_list_recycler_view"-->

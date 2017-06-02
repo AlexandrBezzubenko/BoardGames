@@ -1,162 +1,122 @@
 package com.customdev.gameland;
 
-import android.content.Context;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextInputLayout mLoginInputLayout, mPasswordInputLayout;
-    private EditText mLoginEditText, mPasswordEditText;
-    private Button mLoginButton, mRegisterButton;
+    private static final String LOG_TAG = "LoginActivity";
+
+    private static final int REQUEST_SIGNUP = 0;
+
+    private EditText mEmailEditText, mPasswordEditText;
+    private Button mLoginButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mLoginInputLayout = (TextInputLayout) findViewById(R.id.til_login);
-        mPasswordInputLayout = (TextInputLayout) findViewById(R.id.til_password);
-        mLoginEditText = (EditText) findViewById(R.id.et_login);
+        mEmailEditText = (EditText) findViewById(R.id.et_email);
         mPasswordEditText = (EditText) findViewById(R.id.et_password);
         mLoginButton = (Button) findViewById(R.id.btn_login);
-        mRegisterButton = (Button) findViewById(R.id.btn_register);
+        TextView signUpTextView = (TextView) findViewById(R.id.tv_signup);
 
-        mLoginEditText.addTextChangedListener(new CustomTextWatcher(mLoginEditText));
-        mPasswordEditText.addTextChangedListener(new CustomTextWatcher(mPasswordEditText));
         mLoginButton.setOnClickListener(this);
-        mRegisterButton.setOnClickListener(this);
-
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("User");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
+        signUpTextView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-        switch (v.getId()) {
-            case R.id.btn_login:
-                doLogin();
-                break;
-            case R.id.btn_register:
-                Toast.makeText(this, "REGISTER", Toast.LENGTH_SHORT).show();
-                break;
-        }
+       switch (v.getId()) {
+           case R.id.btn_login:
+               login();
+               break;
+           case R.id.tv_signup:
+               signup();
+               break;
+       }
     }
 
-
-
-    private void doLogin() {
-        if (!validateLogin())
-            return;
-        if (!validatePassword())
-            return;
-        login();
-    }
-
-    private boolean validateLogin() {
-        String login = mLoginEditText.getText().toString().trim();
-        if (login.isEmpty()) {
-            mLoginInputLayout.setError(getString(R.string.login_error_login_empty));
-            return false;
-        }
-        if (login.contains("@")) {
-            if (!isValidEmail(login)) {
-                mLoginInputLayout.setError(getString(R.string.login_error_invalid_email));
-//                requestFocus(mLoginEditText);
-                return false;
-            }
-        }
-        mLoginInputLayout.setErrorEnabled(false);
-        return true;
-    }
-
-    private boolean validatePassword() {
-        if (mPasswordEditText.getText().toString().trim().isEmpty()) {
-            mPasswordInputLayout.setError(getString(R.string.login_error_invalid_password));
-//            requestFocus(mPasswordEditText);
-            return false;
-        } else {
-            mPasswordInputLayout.setErrorEnabled(false);
-        }
-
-        return true;
+    @Override
+    public void onBackPressed() {
+        // Disable going back to the MainActivity
+        moveTaskToBack(true);
     }
 
     private void login() {
-        Toast.makeText(this, "Login: " + mLoginEditText.getText().toString() + " Password: " + mPasswordEditText.getText().toString(), Toast.LENGTH_SHORT).show();
+        Log.d(LOG_TAG, "Login");
+
+        if (!validate()) {
+            onLoginFail();
+            return;
+        }
+
+        mLoginButton.setEnabled(false);
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Authenticating...");
+        progressDialog.show();
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                       onLoginSuccess();
+                    }
+                }, 3000
+        );
     }
 
-    private boolean isValidEmail(String email) {
-        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    private void signup() {
+        Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+        startActivityForResult(intent, REQUEST_SIGNUP);
+        finish();
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+    private boolean validate() {
+        boolean valid = true;
+
+        String email = mEmailEditText.getText().toString().trim();
+        String password = mPasswordEditText.getText().toString().trim();
+
+        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            mEmailEditText.setError(getString(R.string.login_error_invalid_email));
+            valid = false;
+        } else {
+            mEmailEditText.setError(null);
         }
+
+        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+            mPasswordEditText.setError(getString(R.string.login_error_invalid_password));
+            valid = false;
+        } else {
+            mPasswordEditText.setError(null);
+        }
+
+        return valid;
     }
 
+    private void onLoginSuccess() {
+        mLoginButton.setEnabled(true);
+        finish();
+    }
 
-    private class CustomTextWatcher implements TextWatcher {
-
-        private View mView;
-
-        CustomTextWatcher(View view) {
-            mView = view;
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            switch (mView.getId()) {
-                case R.id.et_login:
-                    validateLogin();
-                    break;
-                case R.id.et_password:
-                    validatePassword();
-                    break;
-            }
-        }
+    private void onLoginFail() {
+        mLoginButton.setEnabled(true);
+        Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
     }
 }

@@ -2,89 +2,86 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@color/colorPrimary"
-    tools:context=".LoginActivity">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:orientation="vertical"
+        android:paddingTop="56dp"
         android:paddingLeft="24dp"
-        android:paddingRight="24dp" >
+        android:paddingRight="24dp">
+
+        <!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="0px"
+            android:layout_height="0px"
+            tools:ignore="UselessLeaf"/>
+
+<!--        <ImageView android:src="@drawable/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="center_horizontal" />-->
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="24dp"
+            android:layout_height="72dp"
+            android:layout_marginBottom="24dp"
             android:layout_gravity="center_horizontal"
             android:text="@string/app_name"
+            android:textSize="24sp"
             android:textColor="@color/white"/>
 
+        <!--  Email Label -->
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/til_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textColorHint="@color/white"
             android:layout_marginBottom="8dp">
 
-            <EditText
-                android:id="@+id/et_login"
+            <EditText android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:hint="@string/login_login_hint"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:maxLines="1" />
-
+                android:hint="@string/login_email_hint" />
         </android.support.design.widget.TextInputLayout>
 
+        <!--  Password Label -->
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/til_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/white"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
 
-            <EditText
-                android:id="@+id/et_password"
+            <EditText android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:textColor="@color/white"
-                android:hint="@string/login_password_hint"
-                android:maxLines="1" />
-
+                android:hint="@string/login_password_hint"/>
         </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:background="@color/colorPrimaryDark"
-            android:elevation="4dp"
-            android:textAllCaps="true"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
             android:text="@string/login_login_button"
-            android:textColor="@color/white" />
+            android:textAllCaps="true"/>
 
-        <Button
-            android:id="@+id/btn_register"
+        <TextView android:id="@+id/tv_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:background="@null"
-            android:text="@string/login_register_button"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:layout_marginBottom="24dp"
+            android:text="@string/login_signup_link"
+            android:gravity="center"
+            android:textSize="16sp"/>
 
     </LinearLayout>
-
 </ScrollView>

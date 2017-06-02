@@ -1,13 +1,25 @@
 <resources>
     <string name="app_name">GLand</string>
 
-    <string name="login_login_hint">NickName or E-mail</string>
+    <string name="login_email_hint">E-mail</string>
     <string name="login_password_hint">Password</string>
     <string name="login_login_button">login</string>
-    <string name="login_register_button">Not a member? Sign up now.</string>
-    <string name="login_error_login_empty">This field should not be empty</string>
-    <string name="login_error_invalid_email">Enter valid email address or Nick name</string>
-    <string name="login_error_invalid_password">Enter the password</string>
+    <string name="login_signup_link">Not a member? Sign up now.</string>
+    <string name="login_error_invalid_email">Enter valid email address</string>
+    <string name="login_error_invalid_password">Enter 4 and 10 alphanumeric characters</string>
+
+    <string name="signup_nickname">Nickname</string>
+    <string name="signup_email">E-mail</string>
+    <string name="signup_phone">Phone number</string>
+    <string name="signup_password">Password</string>
+    <string name="signup_password_confirm">Confirm passward</string>
+    <string name="signup_create_account">Create account</string>
+    <string name="signup_login_link">Already a member? Login</string>
+    <string name="signup_error_invalid_nickname">Enter 4 and 16 alphanumeric characters</string>
+    <string name="signup_error_invalid_email">Enter valid email address</string>
+    <string name="signup_error_invalid_phone">Enter valid phone number</string>
+    <string name="signup_error_invalid_password">Enter 4 and 10 alphanumeric characters</string>
+    <string name="signup_error_mismatch_password">Password not confirmed</string>
 
     <string name="mi_show_event_list">My events</string>
     <string name="mi_event_add">New event</string>
@@ -46,7 +58,7 @@
     <string name="desc_event_add_btn_invite">invite player</string>
 
     <string name="desc_user_profile_image_header">user profile header image</string>
-    <string name="desc_user_profile_image_label_range">user profile range label</string>
+    <string name="desc_user_profile_image_label_range">user profile rank label</string>
     <string name="desc_user_profile_btn_edit">user profile edit button</string>
 
     <string-array name="cities">
@@ -79,8 +91,8 @@
 
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_signup">Sign up</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

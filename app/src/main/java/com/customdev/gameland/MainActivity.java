@@ -158,7 +158,7 @@ public class MainActivity
     private User initUser() {
         User user = new User();
         user.setAvatarTag("avatar");
-        user.setRange(666);
+        user.setRank(666);
         user.setNickname("Trooper");
         user.setFistName("John");
         user.setLastName("Snow");

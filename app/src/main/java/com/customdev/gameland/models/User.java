@@ -14,7 +14,7 @@ public class User implements Parcelable {
     private String mEmail;
     private String mPhone;
     private int mCity;
-    private int mRange;
+    private int mRank;
     private int mRole;
 
     public User() {
@@ -31,7 +31,7 @@ public class User implements Parcelable {
         mEmail = in.readString();
         mPhone = in.readString();
         mCity = in.readInt();
-        mRange = in.readInt();
+        mRank = in.readInt();
         mRole = in.readInt();
     }
 
@@ -119,12 +119,12 @@ public class User implements Parcelable {
         mCity = city;
     }
 
-    public int getRange() {
-        return mRange;
+    public int getRank() {
+        return mRank;
     }
 
-    public void setRange(int range) {
-        mRange = range;
+    public void setRank(int rank) {
+        mRank = rank;
     }
 
     public int getRole() {
@@ -151,7 +151,7 @@ public class User implements Parcelable {
         dest.writeString(mEmail);
         dest.writeString(mPhone);
         dest.writeInt(mCity);
-        dest.writeInt(mRange);
+        dest.writeInt(mRank);
         dest.writeInt(mRole);
     }
 }

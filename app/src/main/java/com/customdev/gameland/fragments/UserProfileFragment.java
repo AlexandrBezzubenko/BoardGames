@@ -100,7 +100,7 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
             mProfileImage.setImageResource(resId);
 
             mRangeText = (TextView) rootView.findViewById(R.id.user_range_text);
-            mRangeText.setText(String.valueOf(mUser.getRange()));
+            mRangeText.setText(String.valueOf(mUser.getRank()));
 
             mNicknameText = (TextView) rootView.findViewById(R.id.user_nickname_text);
             mNicknameText.setText(mUser.getNickname());

@@ -1,27 +1,5 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
-
-        <item name="android:textColorPrimary">@color/white</item>
-
-
-        <!--<item name="android:windowBackground">@color/colorPrimary</item>-->
-
-        <item name="colorControlNormal">@color/white</item>
-        <!--<item name="colorControlActivated">@color/white</item>-->
-        <!--<item name="colorControlHighlight">@color/white</item>-->
-        <!--<item name="android:textColorHint">#ADda34</item>-->
-
-        <item name="colorButtonNormal">#BBCC99</item>
-        <!--<item name="android:colorButtonNormal">#359546</item>-->
-    </style>
-
     <style name="AttributesListView">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>

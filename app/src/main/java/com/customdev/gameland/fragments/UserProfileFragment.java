@@ -1,6 +1,7 @@
 package com.customdev.gameland.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 //import android.app.Fragment;
@@ -14,8 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.customdev.gameland.MainActivity;
 import com.customdev.gameland.R;
 import com.customdev.gameland.models.User;
+import com.google.firebase.auth.FirebaseAuth;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -49,6 +52,7 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
 
     private FloatingActionButton mEditFloatingActionButton;
     private Button mConfirmButton;
+    private Button mLogout;
 
     private boolean isEditable = false;
 
@@ -122,6 +126,9 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
 
             mConfirmButton = (Button) rootView.findViewById(R.id.confirm_btn);
             mConfirmButton.setOnClickListener(this);
+
+            mLogout = (Button) rootView.findViewById(R.id.logout_btn);
+            mLogout.setOnClickListener(this);
         }
     }
 
@@ -158,6 +165,9 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
             case R.id.confirm_btn:
                 confirmEdit();
                 break;
+            case R.id.logout_btn:
+                logout();
+                break;
         }
     }
 
@@ -179,6 +189,13 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
         mPhoneText.setEnabled(isEditable);
         mEmailText.setEnabled(isEditable);
         mConfirmButton.setVisibility(View.GONE);
+    }
+
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     /**

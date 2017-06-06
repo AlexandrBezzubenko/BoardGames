@@ -20,6 +20,9 @@ import com.customdev.gameland.fragments.HomeScreenFragment;
 import com.customdev.gameland.fragments.UserProfileFragment;
 import com.customdev.gameland.models.Location;
 import com.customdev.gameland.models.User;
+import com.customdev.gameland.utils.DatabaseManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -37,13 +40,18 @@ public class MainActivity
 
     private ArrayList<Event> mEventList = new ArrayList<>();
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mAuth = FirebaseAuth.getInstance();
+
         ArrayList<Game> gameList = initGameList();
         User user = initUser();
+//        User user = DatabaseManager.getUserInfoFromFirebase();
         mEventList = initEventList(gameList, user);
 
         mHomeScreenFragment = HomeScreenFragment.newInstance(mEventList);
@@ -56,6 +64,17 @@ public class MainActivity
 
         setFragment(mHomeScreenFragment);
         mBottomNavigationView.setSelectedItemId(R.id.mi_home);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            startLoginActivity();
+//            finish();
+        }
     }
 
     private void setFragment(Fragment fragment) {
@@ -87,9 +106,7 @@ public class MainActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mi_event_list_show:
-//                setFragment(mEventListFragment);
-                Intent i = new Intent(this, LoginActivity.class);
-                startActivity(i);
+                setFragment(mEventListFragment);
                 break;
             case R.id.mi_event_add:
                 setFragment(mEventAddFragment);
@@ -105,6 +122,11 @@ public class MainActivity
                 break;
         }
         return true;
+    }
+
+    private void startLoginActivity() {
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(i);
     }
 
     private ArrayList<Game> initGameList() {
@@ -158,7 +180,7 @@ public class MainActivity
     private User initUser() {
         User user = new User();
         user.setAvatarTag("avatar");
-        user.setRank(666);
+        user.setRank("666");
         user.setNickname("Trooper");
         user.setFistName("John");
         user.setLastName("Snow");

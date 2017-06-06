@@ -3,6 +3,7 @@ package com.customdev.gameland;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,6 +14,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -22,6 +29,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText mEmailEditText, mPasswordEditText;
     private Button mLoginButton;
+    
+    private String mEmail, mPassword;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +46,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mLoginButton.setOnClickListener(this);
         signUpTextView.setOnClickListener(this);
+
+        mAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            startMainActivity();
+        }
     }
 
     @Override
@@ -58,12 +81,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void login() {
         Log.d(LOG_TAG, "Login");
 
-        if (!validate()) {
-            onLoginFail();
-            return;
+        if (validate()) {
+            mAuth.signInWithEmailAndPassword(mEmail, mPassword)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(LOG_TAG, "signInWithEmail:success");
+//                                FirebaseUser user = mAuth.getCurrentUser();
+                                startMainActivity();
+                            } else {
+                                Log.w(LOG_TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
         }
 
-        mLoginButton.setEnabled(false);
+/*        mLoginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
@@ -77,7 +113,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                        onLoginSuccess();
                     }
                 }, 3000
-        );
+        );*/
+
+
+
     }
 
     private void signup() {
@@ -90,17 +129,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private boolean validate() {
         boolean valid = true;
 
-        String email = mEmailEditText.getText().toString().trim();
-        String password = mPasswordEditText.getText().toString().trim();
+        mEmail = mEmailEditText.getText().toString().trim();
+        mPassword = mPasswordEditText.getText().toString().trim();
 
-        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (mEmail.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
             mEmailEditText.setError(getString(R.string.login_error_invalid_email));
             valid = false;
         } else {
             mEmailEditText.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+        if (mPassword.isEmpty() || mPassword.length() < 4 || mPassword.length() > 10) {
             mPasswordEditText.setError(getString(R.string.login_error_invalid_password));
             valid = false;
         } else {
@@ -114,9 +153,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLoginButton.setEnabled(true);
         finish();
     }
-
-    private void onLoginFail() {
-        mLoginButton.setEnabled(true);
-        Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
+    
+    private void startMainActivity() {
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
+        finish();
     }
 }

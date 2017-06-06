@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class User implements Parcelable {
 
-    private int mId;
+    private String mId;
     private String mNickname;
     private String mFistName;
     private String mLastName;
@@ -13,16 +13,16 @@ public class User implements Parcelable {
     private String mPassword;
     private String mEmail;
     private String mPhone;
-    private int mCity;
-    private int mRank;
-    private int mRole;
+    private String mCity;
+    private String mRank;
+    private String mRole;
 
     public User() {
 
     }
 
     private User(Parcel in) {
-        mId = in.readInt();
+        mId = in.readString();
         mNickname = in.readString();
         mFistName = in.readString();
         mLastName = in.readString();
@@ -30,9 +30,9 @@ public class User implements Parcelable {
         mPassword = in.readString();
         mEmail = in.readString();
         mPhone = in.readString();
-        mCity = in.readInt();
-        mRank = in.readInt();
-        mRole = in.readInt();
+        mCity = in.readString();
+        mRank = in.readString();
+        mRole = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -47,11 +47,11 @@ public class User implements Parcelable {
         }
     };
 
-    public int getId() {
+    public String getId() {
         return mId;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         mId = id;
     }
 
@@ -111,27 +111,27 @@ public class User implements Parcelable {
         mPhone = phone;
     }
 
-    public int getCity() {
+    public String getCity() {
         return mCity;
     }
 
-    public void setCity(int city) {
+    public void setCity(String city) {
         mCity = city;
     }
 
-    public int getRank() {
+    public String getRank() {
         return mRank;
     }
 
-    public void setRank(int rank) {
+    public void setRank(String rank) {
         mRank = rank;
     }
 
-    public int getRole() {
+    public String getRole() {
         return mRole;
     }
 
-    public void setRole(int role) {
+    public void setRole(String role) {
         mRole = role;
     }
 
@@ -142,7 +142,7 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mId);
+        dest.writeString(mId);
         dest.writeString(mNickname);
         dest.writeString(mFistName);
         dest.writeString(mLastName);
@@ -150,8 +150,8 @@ public class User implements Parcelable {
         dest.writeString(mPassword);
         dest.writeString(mEmail);
         dest.writeString(mPhone);
-        dest.writeInt(mCity);
-        dest.writeInt(mRank);
-        dest.writeInt(mRole);
+        dest.writeString(mCity);
+        dest.writeString(mRank);
+        dest.writeString(mRole);
     }
 }

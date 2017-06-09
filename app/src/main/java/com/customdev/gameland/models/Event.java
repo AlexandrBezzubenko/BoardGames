@@ -20,7 +20,7 @@ public class Event implements Parcelable {
     private long mStartTime;
     private String mDescription;
     private HashMap<Integer, User> mPlayerList;
-    private User mCreator;
+    private String mCreatorId;
 
     public Event() {
 
@@ -120,12 +120,12 @@ public class Event implements Parcelable {
         mPlayerList = playerList;
     }
 
-    public User getCreator() {
-        return mCreator;
+    public String getCreatorId() {
+        return mCreatorId;
     }
 
-    public void setCreator(User creator) {
-        mCreator = creator;
+    public void setCreatorId(String creatorId) {
+        mCreatorId = creatorId;
     }
 
     @Override

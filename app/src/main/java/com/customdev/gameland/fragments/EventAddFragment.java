@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.customdev.gameland.App;
 import com.customdev.gameland.R;
 import com.customdev.gameland.models.Event;
 import com.customdev.gameland.models.Game;
@@ -305,6 +306,7 @@ public class EventAddFragment extends Fragment implements View.OnClickListener, 
         }
         mEvent.setStartTime(mCalendar.getTimeInMillis());
         mEvent.setDescription(mDescriptionText.getText().toString());
+        mEvent.setCreatorId(App.getUser().getUid());
         mOnEventCreatedListener.onEventCreated(mEvent);
     }
 

@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.customdev.gameland.App;
+import com.customdev.gameland.LoginActivity;
 import com.customdev.gameland.MainActivity;
 import com.customdev.gameland.R;
 import com.customdev.gameland.models.User;
@@ -192,10 +194,13 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
     }
 
     private void logout() {
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(getContext(), MainActivity.class);
+        App.getAuth().signOut();
+        App.getUser();
+        Intent intent = new Intent(getContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        getActivity().finish();
+        getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     /**

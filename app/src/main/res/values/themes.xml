@@ -12,6 +12,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Launch screen theme. -->
+    <style name="AppTheme.Launcher" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
     <!-- Login activity theme. -->
     <style name="AppTheme.LoginActivity" parent="AppTheme">
 

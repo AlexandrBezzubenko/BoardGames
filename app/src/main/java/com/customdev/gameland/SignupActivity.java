@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
@@ -34,7 +33,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private String mEmail, mPassword;
 
     private User mUser;
-
 
     private FirebaseAuth mAuth;
 
@@ -54,7 +52,12 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         mSignUpButton.setOnClickListener(this);
         loginTextView.setOnClickListener(this);
 
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = App.getAuth();
+    }
+
+    @Override
+    public void onBackPressed() {
+        login();
     }
 
     @Override
@@ -79,7 +82,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Log.d(LOG_TAG, "createUserWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
+
+                                FirebaseUser user = App.getUser();
                                 if (user != null) {
                                     mUser.setId(user.getUid());
                                     DatabaseManager.addUserInfoToFirebase(mUser);
@@ -87,6 +91,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                                 login();
                             } else {
                                 Log.w(LOG_TAG, "createUserWithEmail:failure", task.getException());
+
                                 Toast.makeText(getApplicationContext(), "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                             }
@@ -99,7 +104,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
         startActivity(intent);
         finish();
-        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 
     private boolean validate() {

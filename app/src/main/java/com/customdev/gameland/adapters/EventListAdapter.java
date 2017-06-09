@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.customdev.gameland.App;
 import com.customdev.gameland.R;
 import com.customdev.gameland.interfaces.OnEventViewButtonClickListener;
 import com.customdev.gameland.models.Event;
@@ -69,10 +70,10 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         final String playersCountText = mContext.getString(R.string.event_list_item_players_count, needPlayers, maxPlayers);
         holder.mEventPlayers.setText(playersCountText);
 
-        final User creator = event.getCreator();
+        final String creatorId = event.getCreatorId();
         String creatorNickname = "";
-        if (creator != null)
-            creatorNickname = creator.getNickname();
+        if (creatorId != null)
+            creatorNickname = App.getUser().getEmail();
         final String creatorText = mContext.getString(R.string.event_list_item_creator, creatorNickname);
         holder.mEventCreator.setText(creatorText);
     }

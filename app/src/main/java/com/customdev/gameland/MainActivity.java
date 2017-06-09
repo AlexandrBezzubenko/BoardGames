@@ -20,7 +20,6 @@ import com.customdev.gameland.fragments.HomeScreenFragment;
 import com.customdev.gameland.fragments.UserProfileFragment;
 import com.customdev.gameland.models.Location;
 import com.customdev.gameland.models.User;
-import com.customdev.gameland.utils.DatabaseManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -40,19 +39,25 @@ public class MainActivity
 
     private ArrayList<Event> mEventList = new ArrayList<>();
 
-    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
+        setTheme(R.style.AppTheme);
+
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
 
         ArrayList<Game> gameList = initGameList();
         User user = initUser();
-//        User user = DatabaseManager.getUserInfoFromFirebase();
-        mEventList = initEventList(gameList, user);
+
+        mUser = App.getUser();
+
+        if (mUser != null) {
+            mEventList = initEventList(gameList, user);
+        }
 
         mHomeScreenFragment = HomeScreenFragment.newInstance(mEventList);
         mEventAddFragment = EventAddFragment.newInstance(gameList);
@@ -70,10 +75,8 @@ public class MainActivity
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null) {
+        if (mUser == null) {
             startLoginActivity();
-//            finish();
         }
     }
 
@@ -208,7 +211,7 @@ public class MainActivity
         event1.setNeedPlayersCount(game.getMinPlayers());
         event1.setStartTime(System.currentTimeMillis());
         event1.setDescription("Description");
-        event1.setCreator(user);
+        event1.setCreatorId(mUser.getUid());
 
         game = games.get(randInt(0, games.size() - 1));
 
@@ -225,7 +228,7 @@ public class MainActivity
         event2.setNeedPlayersCount(game.getMinPlayers());
         event2.setStartTime(System.currentTimeMillis());
         event2.setDescription("Description");
-        event2.setCreator(user);
+        event2.setCreatorId(mUser.getUid());
 
         game = games.get(randInt(0, games.size() - 1));
 
@@ -242,7 +245,7 @@ public class MainActivity
         event3.setNeedPlayersCount(game.getMinPlayers());
         event3.setStartTime(System.currentTimeMillis());
         event3.setDescription("Description");
-        event3.setCreator(user);
+        event3.setCreatorId(mUser.getUid());
 
         game = games.get(randInt(0, games.size() - 1));
 
@@ -259,7 +262,7 @@ public class MainActivity
         event4.setNeedPlayersCount(game.getMinPlayers());
         event4.setStartTime(System.currentTimeMillis());
         event4.setDescription("Description");
-        event4.setCreator(user);
+        event4.setCreatorId(mUser.getUid());
 
         game = games.get(randInt(0, games.size() - 1));
 
@@ -276,7 +279,7 @@ public class MainActivity
         event5.setNeedPlayersCount(game.getMinPlayers());
         event5.setStartTime(System.currentTimeMillis());
         event5.setDescription("Description");
-        event5.setCreator(user);
+        event5.setCreatorId(mUser.getUid());
 
         game = games.get(randInt(0, games.size() - 1));
 
@@ -293,7 +296,7 @@ public class MainActivity
         event6.setNeedPlayersCount(game.getMinPlayers());
         event6.setStartTime(System.currentTimeMillis());
         event6.setDescription("Description");
-        event6.setCreator(user);
+        event6.setCreatorId(mUser.getUid());
 
         list.add(event1);
         list.add(event2);

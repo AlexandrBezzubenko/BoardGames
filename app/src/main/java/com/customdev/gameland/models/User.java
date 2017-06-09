@@ -5,17 +5,17 @@ import android.os.Parcelable;
 
 public class User implements Parcelable {
 
-    private String mId;
-    private String mNickname;
-    private String mFistName;
-    private String mLastName;
-    private String mAvatarTag;
+    private String mId = "";
+    private String mNickname = "";
+    private String mFistName = "";
+    private String mLastName = "";
+    private String mAvatarTag = "";
     private String mPassword;
-    private String mEmail;
-    private String mPhone;
-    private String mCity;
-    private String mRank;
-    private String mRole;
+    private String mEmail = "";
+    private String mPhone = "";
+    private String mCity = "";
+    private String mRank = "";
+    private String mRole = "";
 
     public User() {
 

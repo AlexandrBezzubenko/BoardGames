@@ -25,7 +25,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String LOG_TAG = "SignUpActivity";
-    private static final String USER_REFERENCE = "Users";
 
     private EditText mNicknameEditText, mEmailEditText, mPhoneNumberEditText, mPasswordEditText, mPasswordConfirmEditText;
     private Button mSignUpButton;
@@ -52,7 +51,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         mSignUpButton.setOnClickListener(this);
         loginTextView.setOnClickListener(this);
 
-        mAuth = App.getAuth();
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -83,7 +82,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                             if (task.isSuccessful()) {
                                 Log.d(LOG_TAG, "createUserWithEmail:success");
 
-                                FirebaseUser user = App.getUser();
+                                FirebaseUser user = mAuth.getCurrentUser();
                                 if (user != null) {
                                     mUser.setId(user.getUid());
                                     DatabaseManager.addUserInfoToFirebase(mUser);
@@ -122,7 +121,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             mNicknameEditText.setError(null);
         }
-
 
         if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             mEmailEditText.setError(getString(R.string.signup_error_invalid_email));

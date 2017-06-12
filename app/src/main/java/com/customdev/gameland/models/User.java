@@ -7,10 +7,9 @@ public class User implements Parcelable {
 
     private String mId = "";
     private String mNickname = "";
-    private String mFistName = "";
+    private String mFirstName = "";
     private String mLastName = "";
-    private String mAvatarTag = "";
-    private String mPassword;
+    private String mAvatar = "";
     private String mEmail = "";
     private String mPhone = "";
     private String mCity = "";
@@ -24,10 +23,9 @@ public class User implements Parcelable {
     private User(Parcel in) {
         mId = in.readString();
         mNickname = in.readString();
-        mFistName = in.readString();
+        mFirstName = in.readString();
         mLastName = in.readString();
-        mAvatarTag = in.readString();
-        mPassword = in.readString();
+        mAvatar = in.readString();
         mEmail = in.readString();
         mPhone = in.readString();
         mCity = in.readString();
@@ -63,12 +61,12 @@ public class User implements Parcelable {
         mNickname = nickname;
     }
 
-    public String getFistName() {
-        return mFistName;
+    public String getFirstName() {
+        return mFirstName;
     }
 
-    public void setFistName(String fistName) {
-        mFistName = fistName;
+    public void setFirstName(String firstName) {
+        mFirstName = firstName;
     }
 
     public String getLastName() {
@@ -79,20 +77,12 @@ public class User implements Parcelable {
         mLastName = lastName;
     }
 
-    public String getAvatarTag() {
-        return mAvatarTag;
+    public String getAvatar() {
+        return mAvatar;
     }
 
-    public void setAvatarTag(String avatarTag) {
-        mAvatarTag = avatarTag;
-    }
-
-    public String getPassword() {
-        return mPassword;
-    }
-
-    public void setPassword(String password) {
-        mPassword = password;
+    public void setAvatar(String avatar) {
+        mAvatar = avatar;
     }
 
     public String getEmail() {
@@ -144,10 +134,9 @@ public class User implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mId);
         dest.writeString(mNickname);
-        dest.writeString(mFistName);
+        dest.writeString(mFirstName);
         dest.writeString(mLastName);
-        dest.writeString(mAvatarTag);
-        dest.writeString(mPassword);
+        dest.writeString(mAvatar);
         dest.writeString(mEmail);
         dest.writeString(mPhone);
         dest.writeString(mCity);

@@ -2,25 +2,26 @@ package com.customdev.gameland;
 
 import android.app.Application;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.customdev.gameland.models.User;
+import com.customdev.gameland.utils.DatabaseManager;
 
 public class App extends Application {
 
-    private static FirebaseAuth mAuth;
-    private static FirebaseUser mUser;
+    private static App mInstance;
 
-    public static FirebaseAuth getAuth() {
-        if (mAuth == null) {
-            mAuth = FirebaseAuth.getInstance();
-        }
-        return mAuth;
+    private User mUser;
+
+    private App() {
+        mInstance = this;
     }
 
-    public static FirebaseUser getUser() {
-        if (mUser == null) {
-            mUser = getAuth().getCurrentUser();
+    public static App getInstance() {
+        if (mInstance == null) {
+            new App();
         }
-        return mUser;
+        return mInstance;
     }
+
+//
+
 }

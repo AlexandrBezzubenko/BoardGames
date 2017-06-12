@@ -20,6 +20,7 @@ import com.customdev.gameland.fragments.HomeScreenFragment;
 import com.customdev.gameland.fragments.UserProfileFragment;
 import com.customdev.gameland.models.Location;
 import com.customdev.gameland.models.User;
+import com.customdev.gameland.utils.DatabaseManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -50,32 +51,27 @@ public class MainActivity
 
         setContentView(R.layout.activity_main);
 
-        ArrayList<Game> gameList = initGameList();
-        User user = initUser();
-
-        mUser = App.getUser();
-
-        if (mUser != null) {
-            mEventList = initEventList(gameList, user);
-        }
-
-        mHomeScreenFragment = HomeScreenFragment.newInstance(mEventList);
-        mEventAddFragment = EventAddFragment.newInstance(gameList);
-        mEventListFragment = new EventListFragment();
-        mUserProfileFragment = UserProfileFragment.newInstance(user);
-
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         mBottomNavigationView.setOnNavigationItemSelectedListener(this);
-
-        setFragment(mHomeScreenFragment);
-        mBottomNavigationView.setSelectedItemId(R.id.mi_home);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        if (mUser == null) {
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (mUser != null) {
+            ArrayList<Game> gameList = initGameList();
+            mEventList = initEventList(gameList);
+
+            mHomeScreenFragment = HomeScreenFragment.newInstance(mEventList);
+            mEventAddFragment = EventAddFragment.newInstance(gameList);
+            mEventListFragment = new EventListFragment();
+            mUserProfileFragment = new UserProfileFragment();
+
+            setFragment(mHomeScreenFragment);
+            mBottomNavigationView.setSelectedItemId(R.id.mi_home);
+        } else {
             startLoginActivity();
         }
     }
@@ -180,19 +176,7 @@ public class MainActivity
         return list;
     }
 
-    private User initUser() {
-        User user = new User();
-        user.setAvatarTag("avatar");
-        user.setRank("666");
-        user.setNickname("Trooper");
-        user.setFistName("John");
-        user.setLastName("Snow");
-        user.setPhone("+38 (096) 569 23 57");
-        user.setEmail("john@snow.com");
-        return user;
-    }
-
-    private ArrayList<Event> initEventList(ArrayList<Game> games, User user) {
+    private ArrayList<Event> initEventList(ArrayList<Game> games) {
 
         ArrayList<Event> list = new ArrayList<>();
         Location location = new Location();

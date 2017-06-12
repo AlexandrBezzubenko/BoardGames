@@ -15,11 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.customdev.gameland.App;
 import com.customdev.gameland.R;
 import com.customdev.gameland.models.Event;
 import com.customdev.gameland.models.Game;
 import com.customdev.gameland.models.Location;
+import com.google.firebase.auth.FirebaseAuth;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -306,7 +306,7 @@ public class EventAddFragment extends Fragment implements View.OnClickListener, 
         }
         mEvent.setStartTime(mCalendar.getTimeInMillis());
         mEvent.setDescription(mDescriptionText.getText().toString());
-        mEvent.setCreatorId(App.getUser().getUid());
+        mEvent.setCreatorId(FirebaseAuth.getInstance().getCurrentUser().getUid());
         mOnEventCreatedListener.onEventCreated(mEvent);
     }
 

@@ -1,4 +1,4 @@
-package com.customdev.gameland;
+package com.customdev.gameland.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

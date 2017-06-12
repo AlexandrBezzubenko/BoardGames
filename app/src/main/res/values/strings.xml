@@ -51,6 +51,12 @@
     <string name="user_profile_role">Role:</string>
     <string name="user_profile_confirm">Confirm</string>
     <string name="user_profile_logout">Logout</string>
+    <string name="user_profile_error_invalid_nickname">invalid_nickname</string>
+    <string name="user_profile_error_invalid_firstname">invalid_firstname</string>
+    <string name="user_profile_error_invalid_lastname">invalid_lastname</string>
+    <string name="user_profile_error_invalid_phone">invalid_phone</string>
+    <string name="user_profile_error_invalid_email">invalid_email</string>
+    <string name="user_profile_error_invalid_city">invalid_city</string>
 
     <string name="desc_event_add_image">game logo</string>
     <string name="desc_event_add_btn_edit">edit event</string>

@@ -11,12 +11,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.customdev.gameland.App;
 import com.customdev.gameland.R;
 import com.customdev.gameland.interfaces.OnEventViewButtonClickListener;
 import com.customdev.gameland.models.Event;
 import com.customdev.gameland.models.Location;
-import com.customdev.gameland.models.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.poliveira.parallaxrecyclerview.ParallaxRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -72,7 +71,7 @@ public class EventListParallaxRecyclerAdapter extends ParallaxRecyclerAdapter<Ev
         final String creatorId = event.getCreatorId();
         String creatorNickname = "";
         if (creatorId != null)
-            creatorNickname = App.getUser().getEmail();
+            creatorNickname = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         final String creatorText = mContext.getString(R.string.event_list_item_creator, creatorNickname);
         holder.mEventCreator.setText(creatorText);
     }

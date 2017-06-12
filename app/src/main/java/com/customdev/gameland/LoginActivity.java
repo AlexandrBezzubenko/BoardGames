@@ -1,28 +1,26 @@
 package com.customdev.gameland;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v13.view.ViewCompat;
+import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuView;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.customdev.gameland.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -50,13 +48,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mLoginButton.setOnClickListener(this);
         signUpTextView.setOnClickListener(this);
-
-//        ViewCompat.animate(mLogo)
-//                .translationY(-250)
-//                .setStartDelay(500)
-//                .setDuration(500)
-//                .setInterpolator(new DecelerateInterpolator(1.2f))
-//                .start();
     }
 
     @Override
@@ -82,50 +73,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if (validate()) {
 
-//            mLoginButton.setEnabled(false);
-//            final ProgressDialog progressDialog = new ProgressDialog(this);
-//            progressDialog.setIndeterminate(true);
-//            progressDialog.setMessage("Authenticating...");
-//            progressDialog.show();
-
-            App.getAuth().signInWithEmailAndPassword(mEmail, mPassword)
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(mEmail, mPassword)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Log.d(LOG_TAG, "signInWithEmail:success");
 
-//                                progressDialog.hide();
                                 finish();
                             } else {
                                 Log.e(LOG_TAG, "signInWithEmail:failure", task.getException());
 
                                 mLoginButton.setEnabled(true);
-//                                progressDialog.hide();
                                 Toast.makeText(getApplicationContext(), "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
         }
-
-/*        mLoginButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                       onLoginSuccess();
-                    }
-                }, 3000
-        );*/
-
-
 
     }
 
@@ -157,29 +122,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         return valid;
-    }
-
-    private void onLoginSuccess() {
-        mLoginButton.setEnabled(true);
-        finish();
-    }
-
-    private void startMainActivity() {
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(i);
-        finish();
-    }
-
-    private class MyFocusChangeListener implements View.OnFocusChangeListener {
-
-        public void onFocusChange(View v, boolean hasFocus){
-
-            if(v.getId() == R.id.tv_signup && hasFocus) {
-
-                InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-
-            }
-        }
     }
 }

@@ -1,29 +1,40 @@
 package com.customdev.gameland.utils;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
+import com.customdev.gameland.App;
+import com.customdev.gameland.interfaces.OnLoginResultListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class AuthenticateManager {
 
-    Context mContext;
+    private static final String LOG_TAG = "AuthenticateManager";
 
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
+    public static void signInWithEmailAndPassword(final Activity activity, String email, String password) {
+        if (activity instanceof OnLoginResultListener) {
+            final OnLoginResultListener listener = (OnLoginResultListener) activity;
 
-    public AuthenticateManager(Context context) {
-        mContext = context;
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
+            App.getFifebaseAuth().signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(LOG_TAG, "signInWithEmail: success");
+
+                                    listener.OnLoginSuccess();
+                                } else {
+                                    Log.e(LOG_TAG, "signInWithEmail: failure", task.getException());
+
+                                    listener.OnLoginFail(task.getException());
+                                }
+                            }
+                        });
+        } else {
+            throw new RuntimeException(activity.toString() + " must implement OnFragmentInteractionListener");
+        }
     }
-
-    public void createUser(String email, String password) {
-
-    }
-
 }

@@ -21,13 +21,21 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String LOG_TAG = "SignUpActivity";
 
-    private EditText mNicknameEditText, mEmailEditText, mPhoneNumberEditText, mPasswordEditText, mPasswordConfirmEditText;
-    private Button mSignUpButton;
+    @BindView(R.id.et_nickname) EditText mNicknameEditText;
+    @BindView(R.id.et_email) EditText mEmailEditText;
+    @BindView(R.id.et_phone) EditText mPhoneNumberEditText;
+    @BindView(R.id.et_password) EditText mPasswordEditText;
+    @BindView(R.id.et_password_confirm) EditText mPasswordConfirmEditText;
+    @BindView(R.id.btn_signup) Button mSignUpButton;
+    @BindView(R.id.tv_login) TextView mLoginTextView;
 
     private String mEmail, mPassword;
 
@@ -40,16 +48,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        mNicknameEditText = (EditText) findViewById(R.id.et_nickname);
-        mEmailEditText = (EditText) findViewById(R.id.et_email);
-        mPhoneNumberEditText = (EditText) findViewById(R.id.et_phone);
-        mPasswordEditText = (EditText) findViewById(R.id.et_password);
-        mPasswordConfirmEditText = (EditText) findViewById(R.id.et_password_confirm);
-        mSignUpButton = (Button) findViewById(R.id.btn_signup);
-        TextView loginTextView = (TextView) findViewById(R.id.tv_login);
+        ButterKnife.bind(this);
 
         mSignUpButton.setOnClickListener(this);
-        loginTextView.setOnClickListener(this);
+        mLoginTextView.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
     }
@@ -150,7 +152,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         mPassword = password;
 
         mUser = new User();
-        mUser.setNickname(nickname);
+        mUser.setNickName(nickname);
         mUser.setEmail(email);
         mUser.setPhone(phone);
 

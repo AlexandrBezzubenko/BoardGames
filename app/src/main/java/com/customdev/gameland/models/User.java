@@ -6,7 +6,7 @@ import android.os.Parcelable;
 public class User implements Parcelable {
 
     private String mId = "";
-    private String mNickname = "";
+    private String mNickName = "";
     private String mFirstName = "";
     private String mLastName = "";
     private String mAvatar = "";
@@ -22,7 +22,7 @@ public class User implements Parcelable {
 
     private User(Parcel in) {
         mId = in.readString();
-        mNickname = in.readString();
+        mNickName = in.readString();
         mFirstName = in.readString();
         mLastName = in.readString();
         mAvatar = in.readString();
@@ -53,12 +53,12 @@ public class User implements Parcelable {
         mId = id;
     }
 
-    public String getNickname() {
-        return mNickname;
+    public String getNickName() {
+        return mNickName;
     }
 
-    public void setNickname(String nickname) {
-        mNickname = nickname;
+    public void setNickName(String nickName) {
+        mNickName = nickName;
     }
 
     public String getFirstName() {
@@ -133,7 +133,7 @@ public class User implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mId);
-        dest.writeString(mNickname);
+        dest.writeString(mNickName);
         dest.writeString(mFirstName);
         dest.writeString(mLastName);
         dest.writeString(mAvatar);

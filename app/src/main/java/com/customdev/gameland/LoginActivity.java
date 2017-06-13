@@ -2,36 +2,33 @@ package com.customdev.gameland;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.customdev.gameland.models.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.customdev.gameland.interfaces.OnLoginResultListener;
+import com.customdev.gameland.utils.AuthenticateManager;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, OnLoginResultListener {
 
     private static final String LOG_TAG = "LoginActivity";
 
     private static final int REQUEST_SIGNUP = 0;
 
-    private ImageView mLogo;
-    private EditText mEmailEditText, mPasswordEditText;
-    private Button mLoginButton;
+    @BindView(R.id.et_email) EditText mEmailEditText;
+    @BindView(R.id.et_password) EditText mPasswordEditText;
+    @BindView(R.id.btn_login) Button mLoginButton;
+    @BindView(R.id.tv_signup) TextView mSignUpTextView;
     
     private String mEmail, mPassword;
 
@@ -40,14 +37,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mLogo = (ImageView) findViewById(R.id.iv_logo);
-        mEmailEditText = (EditText) findViewById(R.id.et_email);
-        mPasswordEditText = (EditText) findViewById(R.id.et_password);
-        mLoginButton = (Button) findViewById(R.id.btn_login);
-        TextView signUpTextView = (TextView) findViewById(R.id.tv_signup);
+        ButterKnife.bind(this);
 
         mLoginButton.setOnClickListener(this);
-        signUpTextView.setOnClickListener(this);
+        mSignUpTextView.setOnClickListener(this);
     }
 
     @Override
@@ -72,24 +65,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Log.d(LOG_TAG, "Login");
 
         if (validate()) {
+            AuthenticateManager.signInWithEmailAndPassword(this, mEmail, mPassword);
 
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(mEmail, mPassword)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Log.d(LOG_TAG, "signInWithEmail:success");
-
-                                finish();
-                            } else {
-                                Log.e(LOG_TAG, "signInWithEmail:failure", task.getException());
-
-                                mLoginButton.setEnabled(true);
-                                Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+//            App.getFifebaseAuth().signInWithEmailAndPassword(mEmail, mPassword)
+//                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<AuthResult> task) {
+//                            if (task.isSuccessful()) {
+//                                Log.d(LOG_TAG, "signInWithEmail:success");
+//
+//                                FirebaseUser fireUser = App.getFirebaseUser();
+//                                if (fireUser != null) {
+//                                    User user = App.getUser();
+//                                    user.setId(fireUser.getUid());
+//                                    user.setEmail(fireUser.getEmail());
+//                                }
+//
+//                                finish();
+//                            } else {
+//                                Log.e(LOG_TAG, "signInWithEmail:failure", task.getException());
+//
+//                                mLoginButton.setEnabled(true);
+//                                Toast.makeText(getApplicationContext(), "Authentication failed.",
+//                                        Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
         }
 
     }
@@ -122,5 +123,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         return valid;
+    }
+
+
+    @Override
+    public void OnLoginSuccess() {
+        finish();
+    }
+
+    @Override
+    public void OnLoginFail(Exception e) {
+        mLoginButton.setEnabled(true);
+        Toast.makeText(getApplicationContext(), "Authentication failed." + e.getMessage(),
+                Toast.LENGTH_SHORT).show();
     }
 }

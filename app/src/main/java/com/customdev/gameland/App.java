@@ -3,25 +3,39 @@ package com.customdev.gameland;
 import android.app.Application;
 
 import com.customdev.gameland.models.User;
-import com.customdev.gameland.utils.DatabaseManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class App extends Application {
 
-    private static App mInstance;
+    private static App sApp;
 
-    private User mUser;
+    private static User sUser;
 
-    private App() {
-        mInstance = this;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        sApp = this;
     }
 
     public static App getInstance() {
-        if (mInstance == null) {
-            new App();
-        }
-        return mInstance;
+        return sApp;
     }
 
-//
+    public static User getUser() {
+        if (sUser != null) {
+            sUser = new User();
+        }
+        return sUser;
+    }
+
+    public static FirebaseAuth getFifebaseAuth() {
+        return FirebaseAuth.getInstance();
+    }
+
+    public static FirebaseUser getFirebaseUser() {
+        return getFifebaseAuth().getCurrentUser();
+    }
 
 }

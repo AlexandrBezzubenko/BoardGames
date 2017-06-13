@@ -19,8 +19,6 @@ import com.customdev.gameland.models.Game;
 import com.customdev.gameland.fragments.HomeScreenFragment;
 import com.customdev.gameland.fragments.UserProfileFragment;
 import com.customdev.gameland.models.Location;
-import com.customdev.gameland.models.User;
-import com.customdev.gameland.utils.DatabaseManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -31,7 +29,6 @@ public class MainActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener,
         HomeScreenFragment.OnFragmentInteractionListener,
         EventListFragment.OnFragmentInteractionListener,
-        UserProfileFragment.OnFragmentInteractionListener,
         EventAddFragment.OnFragmentInteractionListener,
         EventAddFragment.OnEventCreatedListener {
 

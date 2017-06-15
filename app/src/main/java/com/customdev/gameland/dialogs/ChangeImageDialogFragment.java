@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import static android.app.Activity.RESULT_OK;
 
 
-public class ChangeImageDialogFragment extends DialogFragment implements View.OnClickListener/*, PreferenceManager.OnActivityResultListener*/ {
+public class ChangeImageDialogFragment extends DialogFragment implements View.OnClickListener {
 
     private final int PICK_IMAGE_FROM_GALLERY = 100;
     private final int PICK_IMAGE_FROM_CAMERA = 200;
@@ -98,6 +98,7 @@ public class ChangeImageDialogFragment extends DialogFragment implements View.On
     }
 
     private void setDefaultImage() {
+
     }
 
     private void setClickListeners() {

@@ -248,6 +248,6 @@
         tools:ignore="UnusedAttribute"
 
 
-        tools:src="@drawable/avatar"/>
+        tools:src="@drawable/default_user_profile_image"/>
 
 </android.support.design.widget.CoordinatorLayout>

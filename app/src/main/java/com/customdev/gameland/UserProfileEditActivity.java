@@ -15,7 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.customdev.gameland.dialogs.ChangeImageDialogFragment;
+import com.customdev.gameland.interfaces.OnUserProfileImageUploadListener;
+import com.customdev.gameland.utils.DatabaseManager;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -104,7 +112,10 @@ public class UserProfileEditActivity extends AppCompatActivity implements View.O
         ChangeImageDialogFragment.newInstance(new OnImageChosenListener() {
             @Override
             public void onImageChosen(Uri selectedImage) {
+
                 Toast.makeText(getApplicationContext(), selectedImage.toString(), Toast.LENGTH_SHORT).show();
+
+                setUserProfileImage(selectedImage);
             }
 
             @Override
@@ -124,6 +135,48 @@ public class UserProfileEditActivity extends AppCompatActivity implements View.O
 
     private void updateUserInfo() {
 
+    }
+
+    private void setUserProfileImage(final Uri imageUri) {
+        DatabaseManager.uploadUserImageToFirebase(App.getFirebaseUser().getUid(), imageUri, new OnUserProfileImageUploadListener() {
+            @Override
+            public void onUploadSuccess() {
+                saveImageToCache(imageUri);
+                Toast.makeText(getApplicationContext(), "User profile image updated", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onUploadFail(Exception e) {
+                Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void saveImageToCache(Uri imageUri) {
+        String sourceFilename = imageUri.getPath();
+        String destinationFilename = getCacheDir().getPath() + File.separatorChar + App.getFirebaseUser().getUid();
+
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+
+        try {
+            bis = new BufferedInputStream(new FileInputStream(sourceFilename));
+            bos = new BufferedOutputStream(new FileOutputStream(destinationFilename, false));
+            byte[] buf = new byte[1024];
+            bis.read(buf);
+            do {
+                bos.write(buf);
+            } while(bis.read(buf) != -1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bis != null) bis.close();
+                if (bos != null) bos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

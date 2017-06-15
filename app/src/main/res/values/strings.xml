@@ -64,6 +64,10 @@
     <string name="user_profile_edit_hint_phone">Phone</string>
     <string name="user_profile_edit_hint_city">City</string>
 
+    <stirng name="change_image_dialog_title">Change image</stirng>
+    <stirng name="change_email_dialog_title">Change email</stirng>
+    <stirng name="change_password_dialog_title">Change password</stirng>
+
     <string name="desc_event_add_image">game logo</string>
     <string name="desc_event_add_btn_edit">edit event</string>
     <string name="desc_event_add_btn_delete">delete event</string>

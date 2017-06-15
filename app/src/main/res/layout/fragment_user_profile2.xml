@@ -36,7 +36,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        tools:src="@drawable/avatar"
+        tools:src="@drawable/default_user_profile_image"
         tools:ignore="UnusedAttribute"
         android:elevation="8dp"
         android:layout_marginLeft="24dp"
@@ -251,7 +251,7 @@
             <!--app:finalHeight="@dimen/image_final_width"-->
 
 
-            <!--tools:src="@drawable/avatar"-->
+            <!--tools:src="@drawable/default_user_profile_image"-->
             <!--tools:ignore="UnusedAttribute"-->
             <!--android:elevation="8dp"-->
 

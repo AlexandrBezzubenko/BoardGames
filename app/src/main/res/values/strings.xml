@@ -58,6 +58,12 @@
     <string name="user_profile_error_invalid_email">invalid_email</string>
     <string name="user_profile_error_invalid_city">invalid_city</string>
 
+    <string name="user_profile_edit_hint_nickname">Nickname</string>
+    <string name="user_profile_edit_hint_firstname">Firstname</string>
+    <string name="user_profile_edit_hint_lastname">Lastname</string>
+    <string name="user_profile_edit_hint_phone">Phone</string>
+    <string name="user_profile_edit_hint_city">City</string>
+
     <string name="desc_event_add_image">game logo</string>
     <string name="desc_event_add_btn_edit">edit event</string>
     <string name="desc_event_add_btn_delete">delete event</string>
@@ -98,9 +104,9 @@
     </string-array>
 
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Login</string>
     <string name="title_activity_signup">Sign up</string>
+    <string name="title_activity_user_profile_edit">Edit user profile</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

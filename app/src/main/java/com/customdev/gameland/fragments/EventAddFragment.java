@@ -1,6 +1,5 @@
 package com.customdev.gameland.fragments;
 
-//import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,10 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.customdev.gameland.App;
 import com.customdev.gameland.R;
 import com.customdev.gameland.models.Event;
 import com.customdev.gameland.models.Game;
 import com.customdev.gameland.models.Location;
+import com.customdev.gameland.utils.DatabaseManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -96,9 +97,12 @@ public class EventAddFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mGameList = getArguments().getParcelableArrayList(ARG_PARAM1);
-        }
+//        if (getArguments() != null) {
+//            mGameList = getArguments().getParcelableArrayList(ARG_PARAM1);
+//        }
+
+        DatabaseManager.getGameListFromFirebase();
+        mGameList = App.getGameList();
     }
 
     @Override
@@ -262,10 +266,10 @@ public class EventAddFragment extends Fragment implements View.OnClickListener, 
 
     private void initPlayerMaxSpinner() {
         int gamePosition = mGameSpinner.getSelectedItemPosition();
-        int gameMaxPlayers = mGameList.get(gamePosition).getMaxPlayers();
-        int gameMinPlayers = mGameList.get(gamePosition).getMinPlayers();
+        long gameMaxPlayers = Long.valueOf(mGameList.get(gamePosition).getMaxPlayers());
+        long gameMinPlayers = Long.valueOf(mGameList.get(gamePosition).getMinPlayers());
         ArrayAdapter<Integer> playerMaxAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item);
-        for (int i = gameMaxPlayers; i >= gameMinPlayers; i--) {
+        for (int i = (int)gameMaxPlayers; i >= gameMinPlayers; i--) {
             playerMaxAdapter.add(i);
         }
         playerMaxAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -295,7 +299,7 @@ public class EventAddFragment extends Fragment implements View.OnClickListener, 
 
     private void createEvent() {
         mEvent = new Event();
-        mEvent.setId(1);
+        mEvent.setId("1");
         mEvent.setLocation(new Location(1, mCitySpinner.getSelectedItemPosition(), mClubSpinner.getSelectedItemPosition()));
         mEvent.setType(mTypeSpinner.getSelectedItemPosition());
         mEvent.setGame(mGameList.get(mGameSpinner.getSelectedItemPosition()));

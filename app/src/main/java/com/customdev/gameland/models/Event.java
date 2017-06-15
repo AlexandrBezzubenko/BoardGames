@@ -11,12 +11,12 @@ public class Event implements Parcelable {
     private static final int TYPE_CHAMPIONSHIP = 1;
     private static final int TYPE_DND = 2;
 
-    private int mId;
+    private String mId;
     private Location location;
     private int mType;
     private Game mGame;
-    private int mMaxPlayersCount;
-    private int mNeedPlayersCount;
+    private long mMaxPlayersCount;
+    private long mNeedPlayersCount;
     private long mStartTime;
     private String mDescription;
     private HashMap<Integer, User> mPlayerList;
@@ -27,7 +27,7 @@ public class Event implements Parcelable {
     }
 
     protected Event(Parcel in) {
-        mId = in.readInt();
+        mId = in.readString();
         mType = in.readInt();
         mGame = in.readParcelable(Game.class.getClassLoader());
         mMaxPlayersCount = in.readInt();
@@ -48,11 +48,11 @@ public class Event implements Parcelable {
         }
     };
 
-    public int getId() {
+    public String getId() {
         return mId;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         mId = id;
     }
 
@@ -80,19 +80,19 @@ public class Event implements Parcelable {
         mGame = game;
     }
 
-    public int getMaxPlayersCount() {
+    public long getMaxPlayersCount() {
         return mMaxPlayersCount;
     }
 
-    public void setMaxPlayersCount(int maxPlayersCount) {
+    public void setMaxPlayersCount(long maxPlayersCount) {
         mMaxPlayersCount = maxPlayersCount;
     }
 
-    public int getNeedPlayersCount() {
+    public long getNeedPlayersCount() {
         return mNeedPlayersCount;
     }
 
-    public void setNeedPlayersCount(int needPlayersCount) {
+    public void setNeedPlayersCount(long needPlayersCount) {
         mNeedPlayersCount = needPlayersCount;
     }
 
@@ -135,11 +135,11 @@ public class Event implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mId);
+        dest.writeString(mId);
         dest.writeInt(mType);
         dest.writeParcelable(mGame, flags);
-        dest.writeInt(mMaxPlayersCount);
-        dest.writeInt(mNeedPlayersCount);
+        dest.writeLong(mMaxPlayersCount);
+        dest.writeLong(mNeedPlayersCount);
         dest.writeLong(mStartTime);
         dest.writeString(mDescription);
     }

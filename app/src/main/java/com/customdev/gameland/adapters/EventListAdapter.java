@@ -44,7 +44,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         Event event = mEventList.get(position);
         Resources res = mContext.getResources();
 
-        final String str = event.getGame().getLogoTag();
+        final String str = event.getGame().getLanguage();
         final int resId = res.getIdentifier(str, "drawable", mContext.getPackageName());
         holder.mEventLogoImg.setImageResource(resId);
 
@@ -64,8 +64,8 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         final String club = res.getStringArray(R.array.clubs)[location.getClub()];
         holder.mEventLocation.setText(city + " " + club);
 
-        final int needPlayers = event.getNeedPlayersCount();
-        final int maxPlayers = event.getMaxPlayersCount();
+        final long needPlayers = event.getNeedPlayersCount();
+        final long maxPlayers = event.getMaxPlayersCount();
         final String playersCountText = mContext.getString(R.string.event_list_item_players_count, needPlayers, maxPlayers);
         holder.mEventPlayers.setText(playersCountText);
 
@@ -79,7 +79,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     @Override
     public int getItemCount() {
-        return mEventList.size();
+        int size = 0;
+        if (mEventList != null) {
+            size = mEventList.size();
+        }
+        return size;
     }
 
 
@@ -126,7 +130,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
         @Override
         public void onClick(View v) {
-            mButtonClickListener.OnButtonClick(v, getAdapterPosition());
+            mButtonClickListener.onButtonClick(v, getAdapterPosition());
         }
     }
 }

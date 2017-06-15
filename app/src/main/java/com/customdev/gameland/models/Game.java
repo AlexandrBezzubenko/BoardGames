@@ -5,26 +5,26 @@ import android.os.Parcelable;
 
 public class Game implements Parcelable{
 
-    private int mId;
+    private String mId;
     private String mName;
-    private String mLogoTag;
-    private String mDescription;
-    private int mMaxPlayers;
-    private int mMinPlayers;
-    private long mDuration;
+    private String mLanguage;
+    private String mDescribe;
+    private String mMaxPlayers;
+    private String mMinPlayers;
+    private String mDuration;
 
     public Game() {
 
     }
 
     protected Game(Parcel in) {
-        mId = in.readInt();
+        mId = in.readString();
         mName = in.readString();
-        mLogoTag = in.readString();
-        mDescription = in.readString();
-        mMaxPlayers = in.readInt();
-        mMinPlayers = in.readInt();
-        mDuration = in.readLong();
+        mLanguage = in.readString();
+        mDescribe = in.readString();
+        mMaxPlayers = in.readString();
+        mMinPlayers = in.readString();
+        mDuration = in.readString();
     }
 
     public static final Creator<Game> CREATOR = new Creator<Game>() {
@@ -39,11 +39,11 @@ public class Game implements Parcelable{
         }
     };
 
-    public int getId() {
+    public String getId() {
         return mId;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         mId = id;
     }
 
@@ -55,43 +55,43 @@ public class Game implements Parcelable{
         mName = name;
     }
 
-    public String getLogoTag() {
-        return mLogoTag;
+    public String getLanguage() {
+        return mLanguage;
     }
 
-    public void setLogoTag(String logoTag) {
-        mLogoTag = logoTag;
+    public void setLanguage(String language) {
+        mLanguage = language;
     }
 
-    public String getDescription() {
-        return mDescription;
+    public String getDescribe() {
+        return mDescribe;
     }
 
-    public void setDescription(String description) {
-        mDescription = description;
+    public void setDescribe(String describe) {
+        mDescribe = describe;
     }
 
-    public int getMaxPlayers() {
+    public String getMaxPlayers() {
         return mMaxPlayers;
     }
 
-    public void setMaxPlayers(int maxPlayers) {
+    public void setMaxPlayers(String maxPlayers) {
         mMaxPlayers = maxPlayers;
     }
 
-    public int getMinPlayers() {
+    public String getMinPlayers() {
         return mMinPlayers;
     }
 
-    public void setMinPlayers(int minPlayers) {
+    public void setMinPlayers(String minPlayers) {
         mMinPlayers = minPlayers;
     }
 
-    public long getDuration() {
+    public String getDuration() {
         return mDuration;
     }
 
-    public void setDuration(long duration) {
+    public void setDuration(String duration) {
         mDuration = duration;
     }
 
@@ -102,12 +102,12 @@ public class Game implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mId);
+        dest.writeString(mId);
         dest.writeString(mName);
-        dest.writeString(mLogoTag);
-        dest.writeString(mDescription);
-        dest.writeInt(mMaxPlayers);
-        dest.writeInt(mMinPlayers);
-        dest.writeLong(mDuration);
+        dest.writeString(mLanguage);
+        dest.writeString(mDescribe);
+        dest.writeString(mMaxPlayers);
+        dest.writeString(mMinPlayers);
+        dest.writeString(mDuration);
     }
 }

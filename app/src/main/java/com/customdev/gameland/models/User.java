@@ -9,12 +9,11 @@ public class User implements Parcelable {
     private String mNickName = "";
     private String mFirstName = "";
     private String mLastName = "";
-    private String mAvatar = "";
     private String mEmail = "";
     private String mPhone = "";
     private String mCity = "";
-    private String mRank = "";
-    private String mRole = "";
+    private String mRank = "0";
+    private String mRole = "user";
 
     public User() {
 
@@ -25,7 +24,6 @@ public class User implements Parcelable {
         mNickName = in.readString();
         mFirstName = in.readString();
         mLastName = in.readString();
-        mAvatar = in.readString();
         mEmail = in.readString();
         mPhone = in.readString();
         mCity = in.readString();
@@ -75,14 +73,6 @@ public class User implements Parcelable {
 
     public void setLastName(String lastName) {
         mLastName = lastName;
-    }
-
-    public String getAvatar() {
-        return mAvatar;
-    }
-
-    public void setAvatar(String avatar) {
-        mAvatar = avatar;
     }
 
     public String getEmail() {
@@ -136,7 +126,6 @@ public class User implements Parcelable {
         dest.writeString(mNickName);
         dest.writeString(mFirstName);
         dest.writeString(mLastName);
-        dest.writeString(mAvatar);
         dest.writeString(mEmail);
         dest.writeString(mPhone);
         dest.writeString(mCity);

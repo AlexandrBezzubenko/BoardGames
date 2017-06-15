@@ -136,7 +136,7 @@ public class HomeScreenFragment extends Fragment implements OnEventViewButtonCli
     }
 
     @Override
-    public void OnButtonClick(View view, int position) {
+    public void onButtonClick(View view, int position) {
         switch (view.getId()) {
             case R.id.button_event_edit:
                 Toast.makeText(getActivity(), "Edit", Toast.LENGTH_SHORT).show();

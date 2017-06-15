@@ -31,9 +31,15 @@
         </activity>
         <activity
             android:name="com.customdev.gameland.SignupActivity"
-            android:label="@string/title_activity_login"
+            android:label="@string/title_activity_signup"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.LoginActivity">
+        </activity>
+        <activity
+            android:name="com.customdev.gameland.UserProfileEditActivity"
+            android:label="@string/title_activity_user_profile_edit"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 

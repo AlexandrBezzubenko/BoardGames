@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -19,11 +18,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.customdev.gameland.App;
 import com.customdev.gameland.LoginActivity;
 import com.customdev.gameland.R;
+import com.customdev.gameland.UserProfileEditActivity;
+import com.customdev.gameland.interfaces.OnUserProfileImageDownloadListener;
 import com.customdev.gameland.models.User;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.customdev.gameland.utils.DatabaseManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,11 +32,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -124,7 +123,8 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.edit_fab:
-                allowEdit();
+//                allowEdit();
+                startEditActivity();
                 break;
             case R.id.confirm_btn:
                 confirmEdit();
@@ -170,7 +170,7 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
     }
 
     private void updateUI(User user) {
-        loadImage(user);
+        getImage(user.getId());
         updateTextFields(user);
     }
 
@@ -183,23 +183,17 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
     private void updateDatabase() {
         Map<String, Object> updates = new HashMap<>();
 
-        FirebaseAuth fireAuth = FirebaseAuth.getInstance();
-        FirebaseUser fireUser = fireAuth.getCurrentUser();
-        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(fireUser.getUid());
-
         String currentNickname = currentUser.getNickName();
         String currentFirstName = currentUser.getFirstName();
         String currentLastName = currentUser.getLastName();
         String currentPhone = currentUser.getPhone();
         String currentCity = currentUser.getCity();
-//        String currentEmail = currentUser.getEmail();
 
         String newNickname = newUser.getNickName();
         String newFirstName = newUser.getFirstName();
         String newLastName = newUser.getLastName();
         String newPhone = newUser.getPhone();
         String newCity = newUser.getCity();
-//        String newEmail = newUser.getEmail();
 
         if (!currentNickname.equals(newNickname)) {
             updates.put("nickName", newNickname);
@@ -216,22 +210,9 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
         if (!currentCity.equals(newCity)) {
             updates.put("city", newCity);
         }
-//        if (!currentEmail.equals(newEmail)) {
-//            updates.put("email", newEmail);
-//
-//            fireUser.updateEmail(newEmail)
-//                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            if (task.isSuccessful()) {
-//                                Log.d(LOG_TAG, "User email address updated.");
-//                            }
-//                        }
-//                    });
-//        }
 
         if (!updates.isEmpty()) {
-            userReference.updateChildren(updates);
+            DatabaseManager.updateUserInfoInFirebase(App.getFirebaseUser().getUid(), updates);
         }
 
     }
@@ -299,39 +280,27 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
         return valid;
     }
 
-    private void loadImage(User user) {
-        String fileName = user.getId();
-        String filePath = getActivity().getCacheDir().getPath() + '/' + fileName;
+    private void getImage(String userId) {
+        String filePath = getActivity().getCacheDir().getPath() + '/' + userId;
         file = new File(filePath);
 
         if (file.exists()) {
             setAvatar();
-            if (progress != null) {
-                progress.dismiss();
-            }
         } else {
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReference();
-            StorageReference imageRef = storageRef.child("UserProfileImages").child(fileName + ".png");
-            String str = imageRef.toString();
-            file = new File(getActivity().getCacheDir(), fileName);
-            imageRef.getFile(file)
-                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(getActivity(), "SUCCESS", Toast.LENGTH_SHORT).show();
-                            setAvatar();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getActivity(), "FAIL", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-            if (progress != null) {
-                progress.dismiss();
-            }
+            DatabaseManager.downloadUserImageFromFirebase(getActivity(), userId, new OnUserProfileImageDownloadListener() {
+                @Override
+                public void onDownloadSuccess() {
+                    setAvatar();
+                }
+
+                @Override
+                public void onDownloadFail(Exception e) {
+                    Toast.makeText(getActivity(), "onUploadFail" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        if (progress != null) {
+            progress.dismiss();
         }
     }
 
@@ -372,5 +341,18 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
 
         mUserReference = userReference;
         mUserListener = userListener;
+    }
+
+    private void startEditActivity() {
+        ArrayList<String> userInfoEditableFields = new ArrayList<>();
+        userInfoEditableFields.add(mNicknameText.getText().toString());
+        userInfoEditableFields.add(mFirstNameText.getText().toString());
+        userInfoEditableFields.add(mLastNameText.getText().toString());
+        userInfoEditableFields.add(mPhoneText.getText().toString());
+        userInfoEditableFields.add(mCityText.getText().toString());
+
+        Intent i = new Intent(getActivity(), UserProfileEditActivity.class);
+        i.putStringArrayListExtra("USER_INFO", userInfoEditableFields);
+        startActivity(i);
     }
 }

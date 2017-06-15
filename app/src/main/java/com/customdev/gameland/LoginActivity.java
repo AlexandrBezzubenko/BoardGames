@@ -12,18 +12,31 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.customdev.gameland.interfaces.OnLoginResultListener;
 import com.customdev.gameland.utils.AuthenticateManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, OnLoginResultListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String LOG_TAG = "LoginActivity";
 
-    private static final int REQUEST_SIGNUP = 0;
+    /**
+     * The callbacks used to indicate the user login result.
+     */
+    public interface OnLoginResultListener {
+        /**
+         * Calls in case of succeed login.
+         */
+        void onLoginSuccess();
+
+        /**
+         * Calls is case of login failure.
+         * @param e An exception returned from server.
+         */
+        void onLoginFail(Exception e);
+    }
 
     @BindView(R.id.et_email) EditText mEmailEditText;
     @BindView(R.id.et_password) EditText mPasswordEditText;
@@ -44,6 +57,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    public void onBackPressed() {
+        // Disable going back to the MainActivity
+        moveTaskToBack(true);
+    }
+
+    @Override
     public void onClick(View v) {
        switch (v.getId()) {
            case R.id.btn_login:
@@ -55,49 +74,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
        }
     }
 
-    @Override
-    public void onBackPressed() {
-        // Disable going back to the MainActivity
-        moveTaskToBack(true);
-    }
-
     private void login() {
         Log.d(LOG_TAG, "Login");
 
         if (validate()) {
-            AuthenticateManager.signInWithEmailAndPassword(this, mEmail, mPassword);
+            mLoginButton.setEnabled(false);
+            AuthenticateManager.signInWithEmailAndPassword(mEmail, mPassword, new OnLoginResultListener() {
+                @Override
+                public void onLoginSuccess() {
+                    finish();
+                }
 
-//            App.getFifebaseAuth().signInWithEmailAndPassword(mEmail, mPassword)
-//                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<AuthResult> task) {
-//                            if (task.isSuccessful()) {
-//                                Log.d(LOG_TAG, "signInWithEmail:success");
-//
-//                                FirebaseUser fireUser = App.getFirebaseUser();
-//                                if (fireUser != null) {
-//                                    User user = App.getUser();
-//                                    user.setId(fireUser.getUid());
-//                                    user.setEmail(fireUser.getEmail());
-//                                }
-//
-//                                finish();
-//                            } else {
-//                                Log.e(LOG_TAG, "signInWithEmail:failure", task.getException());
-//
-//                                mLoginButton.setEnabled(true);
-//                                Toast.makeText(getApplicationContext(), "Authentication failed.",
-//                                        Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    });
+                @Override
+                public void onLoginFail(Exception e) {
+                    mLoginButton.setEnabled(true);
+                    Toast.makeText(getApplicationContext(), "Authentication failed." + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
     }
 
     private void signup() {
         Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-        startActivityForResult(intent, REQUEST_SIGNUP);
+        startActivity(intent);
         finish();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
@@ -123,18 +124,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         return valid;
-    }
-
-
-    @Override
-    public void OnLoginSuccess() {
-        finish();
-    }
-
-    @Override
-    public void OnLoginFail(Exception e) {
-        mLoginButton.setEnabled(true);
-        Toast.makeText(getApplicationContext(), "Authentication failed." + e.getMessage(),
-                Toast.LENGTH_SHORT).show();
     }
 }

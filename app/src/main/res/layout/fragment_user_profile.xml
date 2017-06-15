@@ -67,7 +67,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="148dp"
                 android:contentDescription="@string/desc_user_profile_image_label_range"
-                android:src="@drawable/ic_flag_24dp"
+                app:srcCompat="@drawable/ic_flag_24dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
             <TextView
@@ -231,12 +231,11 @@
         android:layout_width="wrap_content"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:src="@drawable/ic_event_edit_24dp"
+        app:srcCompat="@drawable/ic_event_edit_24dp"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end"/>
 
 <!--    Avatar    -->
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_avatar_image"
         android:layout_width="@dimen/image_width"

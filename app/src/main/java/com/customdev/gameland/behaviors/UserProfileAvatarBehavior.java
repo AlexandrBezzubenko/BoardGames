@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -78,15 +79,14 @@ public class UserProfileAvatarBehavior extends CoordinatorLayout.Behavior<Circle
         imageFinalHeight = (int) mContext.getResources().getDimension(R.dimen.image_final_width);
         mStartHeight = (int) mContext.getResources().getDimension(R.dimen.image_width);
 
+
         TypedValue tv = new TypedValue();
         if (mContext.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
         {
             mCustomToolbarHeight = TypedValue.complexToDimensionPixelSize(tv.data, mContext.getResources().getDisplayMetrics());
         }
 
-
-        imageFinalPosition = (int) (mCustomToolbarHeight - imageFinalHeight) / 2;
-
+        imageFinalPosition = (int) (mCustomToolbarHeight - imageFinalHeight) / 2 - 8;
         travelDimension = toolbarImageHeight - mCustomToolbarHeight;
 
     }

@@ -1,12 +1,10 @@
 package com.customdev.gameland;
 
-import android.app.DialogFragment;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Path;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,11 +15,13 @@ import android.widget.Toast;
 import com.customdev.gameland.dialogs.ChangeImageDialogFragment;
 import com.customdev.gameland.interfaces.OnUserProfileImageUploadListener;
 import com.customdev.gameland.utils.DatabaseManager;
+import com.customdev.gameland.utils.ScalingUtilities;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -112,9 +112,6 @@ public class UserProfileEditActivity extends AppCompatActivity implements View.O
         ChangeImageDialogFragment.newInstance(new OnImageChosenListener() {
             @Override
             public void onImageChosen(Uri selectedImage) {
-
-                Toast.makeText(getApplicationContext(), selectedImage.toString(), Toast.LENGTH_SHORT).show();
-
                 setUserProfileImage(selectedImage);
             }
 
@@ -141,7 +138,10 @@ public class UserProfileEditActivity extends AppCompatActivity implements View.O
         DatabaseManager.uploadUserImageToFirebase(App.getFirebaseUser().getUid(), imageUri, new OnUserProfileImageUploadListener() {
             @Override
             public void onUploadSuccess() {
+//                normalizeImage(imageUri, 100);
+                String str = imageUri.getPath();
                 saveImageToCache(imageUri);
+                mProfileImage.setImageURI(imageUri);
                 Toast.makeText(getApplicationContext(), "User profile image updated", Toast.LENGTH_SHORT).show();
             }
 
@@ -150,6 +150,41 @@ public class UserProfileEditActivity extends AppCompatActivity implements View.O
                 Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private String normalizeImage(Uri imageUri, int dimension) {
+
+        String filePath = imageUri.getPath();
+        Bitmap normalizedImage = null;
+
+        Bitmap image = ScalingUtilities.decodeFile(filePath, dimension, dimension, ScalingUtilities.ScalingLogic.FIT);
+        if (!(image.getWidth() <= dimension && image.getHeight() <= dimension)) {
+            normalizedImage = ScalingUtilities.createScaledBitmap(image, dimension, dimension, ScalingUtilities.ScalingLogic.FIT);
+        } else {
+            image.recycle();
+            return filePath;
+        }
+
+        String destinationFilename = getCacheDir().getPath() + File.separatorChar + "normalizedImage";
+        File imageFile = new File(destinationFilename);
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(imageFile);
+            normalizedImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        imageFile.getPath();
+        imageFile.getAbsolutePath();
+
+        normalizedImage.recycle();
+
+        return imageFile.getAbsolutePath();
     }
 
     private void saveImageToCache(Uri imageUri) {

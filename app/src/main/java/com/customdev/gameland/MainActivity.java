@@ -1,29 +1,26 @@
 package com.customdev.gameland;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 
-import java.util.Random;
-
-import com.customdev.gameland.models.Event;
 import com.customdev.gameland.fragments.EventAddFragment;
 import com.customdev.gameland.fragments.EventListFragment;
-import com.customdev.gameland.models.Game;
 import com.customdev.gameland.fragments.HomeScreenFragment;
 import com.customdev.gameland.fragments.UserProfileFragment;
-import com.customdev.gameland.models.Location;
+import com.customdev.gameland.models.Event;
 import com.customdev.gameland.utils.DatabaseManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity
         extends AppCompatActivity
@@ -38,7 +35,6 @@ public class MainActivity
 
     private ArrayList<Event> mEventList = new ArrayList<>();
 
-    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +45,16 @@ public class MainActivity
 
         setContentView(R.layout.activity_main);
 
+        mHomeScreenFragment = new HomeScreenFragment();
+        mEventAddFragment = new EventAddFragment();
+        mEventListFragment = new EventListFragment();
+        mUserProfileFragment = new UserProfileFragment();
+
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         mBottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+        setFragment(mHomeScreenFragment);
+        mBottomNavigationView.setSelectedItemId(R.id.mi_home);
 
         DatabaseManager.getGameListFromFirebase();
     }
@@ -59,25 +63,13 @@ public class MainActivity
     protected void onStart() {
         super.onStart();
 
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (mUser != null) {
-//            ArrayList<Game> gameList = initGameList();
-//            mEventList = initEventList(gameList);
-
-            mHomeScreenFragment = new HomeScreenFragment();
-            mEventAddFragment = new EventAddFragment();
-            mEventListFragment = new EventListFragment();
-            mUserProfileFragment = new UserProfileFragment();
-
-            setFragment(mHomeScreenFragment);
-            mBottomNavigationView.setSelectedItemId(R.id.mi_home);
-        } else {
+        if (App.getFirebaseUser() == null) {
             startLoginActivity();
         }
     }
 
     private void setFragment(Fragment fragment) {
-        android.support.v4.app.FragmentTransaction fTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fTransaction = getSupportFragmentManager().beginTransaction();
         if (fragment != null) {
             fTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fTransaction.replace(R.id.frame_fragment_container, fragment);

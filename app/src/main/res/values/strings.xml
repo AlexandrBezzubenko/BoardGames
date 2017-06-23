@@ -62,6 +62,7 @@
     <string name="user_profile_edit_hint_firstname">Firstname</string>
     <string name="user_profile_edit_hint_lastname">Lastname</string>
     <string name="user_profile_edit_hint_phone">Phone</string>
+    <string name="user_profile_edit_hint_email">Email</string>
     <string name="user_profile_edit_hint_city">City</string>
 
     <string name="change_image_dialog_title">Change image</string>
@@ -78,6 +79,9 @@
     <string name="desc_user_profile_image_header">user profile header image</string>
     <string name="desc_user_profile_image_label_range">user profile rank label</string>
     <string name="desc_user_profile_btn_edit">user profile edit button</string>
+
+    <string name="error_unable_upload_image">Unable to upload user image to server. Please try again later.</string>
+    <string name="error_unable_change_email">Unable to change user email.</string>
 
     <string-array name="cities">
         <item>Kyiv</item>

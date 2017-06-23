@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -78,6 +80,19 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        showProgressDialog();
+//        updateUserInfo();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -88,23 +103,25 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mEditFloatingActionButton.setOnClickListener(this);
-        mConfirmButton.setOnClickListener(this);
-        mLogout.setOnClickListener(this);
+        setOnClickListeners();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        updateUserInfo();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        showProgressDialog();
-        updateUserInfo();
     }
 
     @Override
@@ -133,6 +150,12 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
                 logout();
                 break;
         }
+    }
+
+    private void setOnClickListeners() {
+        mEditFloatingActionButton.setOnClickListener(this);
+        mConfirmButton.setOnClickListener(this);
+        mLogout.setOnClickListener(this);
     }
 
     private void allowEdit() {
@@ -178,6 +201,8 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
         String filePath = file.getPath();
         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
         mProfileImage.setImageBitmap(bitmap);
+
+//        mProfileImage.setImageURI(Uri.fromFile(file));
     }
 
     private void updateDatabase() {
@@ -344,15 +369,8 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
     }
 
     private void startEditActivity() {
-        ArrayList<String> userInfoEditableFields = new ArrayList<>();
-        userInfoEditableFields.add(mNicknameText.getText().toString());
-        userInfoEditableFields.add(mFirstNameText.getText().toString());
-        userInfoEditableFields.add(mLastNameText.getText().toString());
-        userInfoEditableFields.add(mPhoneText.getText().toString());
-        userInfoEditableFields.add(mCityText.getText().toString());
-
         Intent i = new Intent(getActivity(), UserProfileEditActivity.class);
-        i.putStringArrayListExtra("USER_INFO", userInfoEditableFields);
+        i.putExtra("USER", currentUser);
         startActivity(i);
     }
 }

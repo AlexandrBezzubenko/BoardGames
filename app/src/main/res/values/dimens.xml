@@ -3,7 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="image_width">128dp</dimen>
+    <dimen name="image_width">100dp</dimen>
     <dimen name="image_width_preview">64dp</dimen>
     <dimen name="image_final_width">32dp</dimen>
 
